@@ -142,36 +142,84 @@ export default function Index({ navigateToPage }) {
       const body = {
         string: images,
       };
-      console.log(body);
       setStages(1);
-      fetch("https://dark.zubairmh.xyz/detect", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          var dataArr = [];
+      var x = images.slice();
+      const socket = new WebSocket("wss://dark.zubairmh.xyz/ws");
+      var i = 0;
+      var peak = x.length - 1;
+      // Listen for messages
+      socket.addEventListener("message", (event) => {
+        if (event.data == "OK") {
+          console.log("Message from server ", event.data);
+        } else {
+          var out = JSON.parse(event.data);
+          console.log("out", out)
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              chrome.tabs.sendMessage(
+                tabs[0].id,
+                { message: "disable", link: out["link"], pattern_type: out["unique"][0] },
+                function (response) {
+                  console.log(response);
+                }
+              );
+              var dataArr = [];
 
-          data["all_counts"].forEach((element, index) => {
-            console.log("text", detections);
-            dataArr.push({
-              name: mapping[index],
-              value: element,
-            });
-          });
-          setImageDetections(dataArr);
-        });
+              out["all_counts"].forEach((element, index) => {
+                console.log("text", detections);
+                dataArr.push({
+                  name: mapping[index],
+                  value: element,
+                });
+              });
+              setImageDetections(dataArr);
+            }
+          );
+        }
+        if (i <= peak) {
+          console.log(`Sending image ${i}/${peak}`)
+          socket.send(
+            JSON.stringify({
+              type: "data",
+              link: x[i],
+            })
+          );
+          i++;
+        } else {
+          setStages(2);
+          socket.close();
+        }
+      });
+      // console.log(body);
+      // setStages(1);
+      // fetch("https://dark.zubairmh.xyz/detect", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(body),
+      // })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     var dataArr = [];
+
+      //     data["all_counts"].forEach((element, index) => {
+      //       console.log("text", detections);
+      //       dataArr.push({
+      //         name: mapping[index],
+      //         value: element,
+      //       });
+      //     });
+      //     setImageDetections(dataArr);
+      //   });
     }
   }, [images]);
 
   useEffect(() => {
     if (
       detections.length != 0 &&
-      imageDetections.length != 0 &&
-      images.length != 0
+      imageDetections.length != 0 
     ) {
       var x = [];
       detections.forEach((v, i) => {
@@ -180,9 +228,8 @@ export default function Index({ navigateToPage }) {
           value: v.value + imageDetections[i].value,
         });
       });
-      setImages([]);
+      setImageDetections([]);
       setDetections(x);
-      setStages(2);
     }
   }, [detections, imageDetections, images]);
 
@@ -346,11 +393,7 @@ export default function Index({ navigateToPage }) {
                         <h1>{v.name}</h1>
                         <div className="flex flex-row justify-center items-center w-full text-xl font-bold">
                           {`${v.value}`.split("").map((txt, i) => (
-                            <TextTransition
-                              key={i}
-                              delay={i * 100}
-                              inline
-                            >
+                            <TextTransition key={i} delay={i * 100} inline>
                               {txt}
                             </TextTransition>
                           ))}
