@@ -22,8 +22,10 @@ chrome.runtime.onMessage.addListener(
       const images=document.querySelectorAll("img")
       const links=[];
       images.forEach((img)=> {
-        console.log(img.src)
-        links.push(img.src)
+        if(img.src!="" && img.width>200 && img.height>200 && (img.width/img.height)>2) {
+          console.log(img.src)
+          links.push(img.src)
+        }
       })
       console.log("images", links)
       sendResponse(links)

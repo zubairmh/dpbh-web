@@ -77,23 +77,31 @@ const colors = [
   "#e31a1c",
   "#ff7f00",
   "#6a3d9a",
+  "#b645b3",
 ];
-const mapping=['Urgency',
-'Misdirection',
-'Not Dark Pattern',
-'Scarcity',
-'Obstruction',
-'Social Proof',
-'Sneaking',
-'Forced Action']
+
+const mapping = [
+  "Urgency",
+  "Misdirection",
+  "Not Dark Pattern",
+  "Scarcity",
+  "Obstruction",
+  "Social Proof",
+  "Sneaking",
+  "Forced Action",
+];
+
 export default function Index({ navigateToPage }) {
-  const [tabs, setTabs] = useState(false);
+  const [tabs, setTabs] = useState(0);
   const [text, setText] = useState("");
+  const [images, setImages] = useState([]);
   const [faviconUrl, setFaviconUrl] = useState("/");
   const [pageTitle, setPageTitle] = useState("untitled");
   const [isClient, setIsClient] = useState(false);
-  const [score, setScore]=useState(0);
-  const [detections, setDetections]=useState([])
+  const [stage, setStages] = useState(0);
+  // const [score, setScore] = useState(0);
+  const [detections, setDetections] = useState([]);
+  const [imageDetections, setImageDetections] = useState([]);
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -105,7 +113,7 @@ export default function Index({ navigateToPage }) {
       const body = {
         string: result,
       };
-      console.log(body)
+      console.log(body);
       fetch("https://dark.zubairmh.xyz/detect", {
         method: "POST",
         headers: {
@@ -115,26 +123,89 @@ export default function Index({ navigateToPage }) {
       })
         .then((response) => response.json())
         .then((data) => {
-          var dataArr=Array(7);
-          data.all_counts.forEach((element, index)=>{
-            dataArr[index]={
-              name:mapping[index],
-              value:element
-            }
-          })
+          var dataArr = [];
+          data["all_counts"].forEach((element, index) => {
+            dataArr.push({
+              name: mapping[index],
+              value: element,
+            });
+          });
+          setText("");
           setDetections(dataArr);
         });
     }
   }, [text]);
+
+  useEffect(() => {
+    if (images.length != 0) {
+      const body = {
+        string: images,
+      };
+      console.log(body);
+      setStages(1);
+      fetch("https://dark.zubairmh.xyz/detect", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          var dataArr = [];
+
+          data["all_counts"].forEach((element, index) => {
+            console.log("text", detections);
+            dataArr.push({
+              name: mapping[index],
+              value: element,
+            });
+          });
+          setImageDetections(dataArr);
+        });
+    }
+  }, [images]);
+
+  useEffect(() => {
+    if (
+      detections.length != 0 &&
+      imageDetections.length != 0 &&
+      images.length != 0
+    ) {
+      var x = [];
+      detections.forEach((v, i) => {
+        x.push({
+          name: v.name,
+          value: v.value + imageDetections[i].value,
+        });
+      });
+      setImages([]);
+      setDetections(x);
+      setStages(2);
+    }
+  }, [detections, imageDetections, images]);
+
   useEffect(() => {
     const id = setTimeout(() => {
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        setStages(0);
         chrome.tabs.sendMessage(
           tabs[0].id,
           { message: "getPage" },
           function (response) {
             console.log(response);
             setText(response);
+          }
+        );
+        chrome.tabs.sendMessage(
+          tabs[0].id,
+          { message: "image" },
+          function (response) {
+            console.log(response);
+            if (response.length == 0) {
+              setStages(2);
+            }
+            setImages(response);
           }
         );
         chrome.tabs.sendMessage(
@@ -169,9 +240,9 @@ export default function Index({ navigateToPage }) {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * 1.4 * Math.cos(-midAngle * (Math.PI / 180));
     const y = cy + radius * 1.4 * Math.sin(-midAngle * (Math.PI / 180));
-    if (index==2) {
-      setScore((percent * 100).toFixed(0))
-    }
+    // if (index == 2) {
+    //   setScore((percent * 100).toFixed(0));
+    // }
     return (
       <text
         x={x}
@@ -202,18 +273,27 @@ export default function Index({ navigateToPage }) {
         <h1 className=" text-xl text-center font-bold  text-white">WebGuard</h1>
         <div className="grow" />
         <div className="flex flex-row items-center gap-2">
-          <span>Connection: </span>
-          <div
-            style={{ backgroundColor: text == "" ? "#f87171" : "lime" }}
-            className="h-3 w-3 rounded-full"
-          ></div>
+          {stage == 1 ? (
+            <div className="w-fit flex flex-row items-center gap-2 px-4 py-2 rounded-full bg-[#32af3d] text-[white] ">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Analyzing images</span>
+            </div>
+          ) : (
+            <>
+              <span>Connection: </span>
+              <div
+                style={{ backgroundColor: detections.length==0 ? "#f87171" : "lime" }}
+                className="h-3 w-3 rounded-full"
+              ></div>
+            </>
+          )}
         </div>
       </div>
-      {text != "" ? (
+      {stage == 2 || stage == 1 ? (
         <div className="flex flex-col p-2">
-          <div className="flex flex-row w-full justify-center">
+          <div className="flex flex-col w-full items-center justify-center gap-2">
             <div className="w-fit flex flex-row gap-2 px-4 py-2 rounded-full bg-[#21394a] text-[#1098fc] ">
-              <span>Website: </span>{" "}
+              <span>Website: </span>
               <img className="h-[16px] w-auto" src={faviconUrl} />
               <span>{pageTitle}</span>
             </div>
@@ -221,30 +301,64 @@ export default function Index({ navigateToPage }) {
           <div className="flex flex-col w-full">
             <div className="flex justify-around p-4">
               <div
-                style={{ borderColor: !tabs ? "#3b82f6" : "transparent" }}
+                style={{ borderColor: tabs == 0 ? "#3b82f6" : "transparent" }}
                 className="cursor-pointer py-2 px-4 border-b-2 border-transparent hover:border-blue-500 text-white"
-                onClick={() => setTabs(false)}
+                onClick={() => setTabs(0)}
               >
-                Account
+                Home
               </div>
               <div
-                style={{ borderColor: tabs ? "#3b82f6" : "transparent" }}
+                style={{ borderColor: tabs == 1 ? "#3b82f6" : "transparent" }}
                 className="cursor-pointer py-2 px-4 border-b-2 border-transparent hover:border-blue-500 text-white"
-                onClick={() => setTabs(true)}
+                onClick={() => setTabs(1)}
+              >
+                Analysis
+              </div>
+              <div
+                style={{ borderColor: tabs == 2 ? "#3b82f6" : "transparent" }}
+                className="cursor-pointer py-2 px-4 border-b-2 border-transparent hover:border-blue-500 text-white"
+                onClick={() => setTabs(2)}
               >
                 About
               </div>
             </div>
 
             <div
-              style={{ display: !tabs ? "flex" : "none" }}
-              id="account-tab"
-              className="p-2 rounded text-white flex flex-col gap-5 "
+              style={{ display: tabs == 0 ? "flex" : "none" }}
+              id="detections-tab"
+              className="flex flex-col gap-5"
             >
               <h1 className="text-center font-bold text-xl">
                 Detected Patterns
               </h1>
-              {isClient ? (
+              {detections.length != 0 ? (
+                <div className="grid grid-cols-3  gap-3 w-full  p-3">
+                  {detections.map((v, i) => {
+                    console.log(v);
+                    return (
+                      <div
+                        key={i}
+                        className="bg-[#2e3134]  rounded-md text-center p-2"
+                      >
+                        <h1>{v.name}</h1>
+                        <h2>{v.value}</h2>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="flex flex-col w-full h-full items-center justify-center">
+                  <Loader2 className="h-32 w-32 animate-spin" />
+                </div>
+              )}
+            </div>
+
+            <div
+              style={{ display: tabs == 1 ? "flex" : "none" }}
+              id="analysis-tab"
+              className="p-2 rounded text-white flex flex-col gap-5 "
+            >
+              {isClient && detections.length != 0 ? (
                 <PieChart
                   width={600}
                   height={600}
@@ -261,7 +375,7 @@ export default function Index({ navigateToPage }) {
                     fill="#8884d8"
                     label={renderCustomizedLabel}
                   >
-                    <Label fontSize={80} value={score} position="center" />
+                    {/* <Label fontSize={80} value={score} position="center" /> */}
                     {detections.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={colors[index]} />
                     ))}
@@ -280,11 +394,14 @@ export default function Index({ navigateToPage }) {
                   <Loader2 className="h-32 w-32 animate-spin" />
                 </div>
               )}
+              <button className="flex flex-col w-full h-full items-center justify-center bg-[#6a7076] rounded-lg ">
+                Generate Report
+              </button>
             </div>
 
             <div
-              style={{ display: tabs ? "flex" : "none" }}
-              id="password-tab"
+              style={{ display: tabs == 2 ? "flex" : "none" }}
+              id="about-tab"
               className="p-4 rounded text-white flex flex-col"
             >
               <h1 className="text-xl font-bold">Learn More:</h1>
@@ -362,63 +479,17 @@ export default function Index({ navigateToPage }) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col w-full h-full items-center justify-center">
+        <div className="flex flex-col w-full h-full items-center justify-center gap-4">
           <Loader2 className="h-32 w-32 animate-spin" />
+          {stage == 0 ? (
+            <span>Analyzing page text</span>
+          ) : (
+            <span>Analyzing page images</span>
+          )}
         </div>
       )}
 
       {/* <span>{text=="" ?  : text}</span> */}
     </div>
   );
-}
-
-{
-  // <RadarChart
-  //   outerRadius={80}
-  //   width={200}
-  //   height={200}
-  //   data={data01}
-  //   className="!w-full !h-44 shadow-none"
-  // >
-  //   <PolarGrid />
-  //   <PolarAngleAxis dataKey="name" />
-  //   <PolarRadiusAxis angle={30} domain={[0, 500]} />
-  //   <Radar
-  //     name="Temu"
-  //     dataKey="value"
-  //     stroke="#8884d8"
-  //     fill="#8884d8"
-  //     fillOpacity={0.6}
-  //   />
-  //   <Legend verticalAlign="bottom" align="center" />
-  // </RadarChart>
-  /* <RadialBarChart
-  width={730}
-  height={250}
-  innerRadius="10%"
-  outerRadius="80%"
-  data={data01}
-  startAngle={180}
-  endAngle={0}
-  >
-  <RadialBar
-  minAngle={15}
-  label={{ fill: "#666", position: "insideStart" }}
-  background
-  clockWise={true}
-  dataKey="uv"
-  />
-                <Legend
-                  iconSize={10}
-                  width={120}
-                  height={140}
-                  layout="vertical"
-                  verticalAlign="middle"
-                  align="right"
-                />
-                <Tooltip />
-              </RadialBarChart> */
-}
-{
-  /* <Pie data={data02} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" label /> */
 }
