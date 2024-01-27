@@ -18,6 +18,7 @@ import {
   PolarGrid,
   PolarRadiusAxis,
 } from "recharts";
+import TextTransition, { presets } from "react-text-transition";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
@@ -282,7 +283,9 @@ export default function Index({ navigateToPage }) {
             <>
               <span>Connection: </span>
               <div
-                style={{ backgroundColor: detections.length==0 ? "#f87171" : "lime" }}
+                style={{
+                  backgroundColor: detections.length == 0 ? "#f87171" : "lime",
+                }}
                 className="h-3 w-3 rounded-full"
               ></div>
             </>
@@ -341,7 +344,17 @@ export default function Index({ navigateToPage }) {
                         className="bg-[#2e3134]  rounded-md text-center p-2"
                       >
                         <h1>{v.name}</h1>
-                        <h2>{v.value}</h2>
+                        <div className="flex flex-row justify-center items-center w-full text-xl font-bold">
+                          {`${v.value}`.split("").map((txt, i) => (
+                            <TextTransition
+                              key={i}
+                              delay={i * 100}
+                              inline
+                            >
+                              {txt}
+                            </TextTransition>
+                          ))}
+                        </div>
                       </div>
                     );
                   })}
