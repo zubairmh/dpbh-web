@@ -1,4 +1,4 @@
-<div align="center">
+
 
 # Dark Patterns Detector
 
@@ -39,7 +39,16 @@ The Dark Patterns Detector is a powerful web extension developed with Next.js, d
 
 ## Screenshots
 
-![Dark Patterns Detector](screenshots/dark-patterns-detector.png)
+<div style="display: flex; justify-content: space-between;">
+  <img src="https://github.com/zubairmh/dpbh-web/assets/113838495/0c79f231-a510-4944-a854-48cf954dae19" alt="Home" style="width: 30%; height: full;">
+ 
+  <img src="https://github.com/zubairmh/dpbh-web/assets/113838495/23a8fe07-a7b8-4bdd-93a5-706069cd012a" alt="Analysis" style="width: 30%; height: full;">
+   <img src="https://github.com/zubairmh/dpbh-web/assets/113838495/3bd054c5-f35b-4be8-b3f8-c94ef04f59c8" alt="About" style="width: 30%; height: full;">
+</div>
+
+
+
+
 
 ## Contributing
 
