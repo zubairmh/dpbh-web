@@ -94,7 +94,7 @@ const mapping = [
 
 export default function Index({ navigateToPage }) {
   const [tabs, setTabs] = useState(0);
-  const [text, setText] = useState("");
+  const [text, setText] = useState([]);
   const [images, setImages] = useState([]);
   const [faviconUrl, setFaviconUrl] = useState("/");
   const [pageTitle, setPageTitle] = useState("untitled");
@@ -103,19 +103,34 @@ export default function Index({ navigateToPage }) {
   // const [score, setScore] = useState(0);
   const [detections, setDetections] = useState([]);
   const [imageDetections, setImageDetections] = useState([]);
+  const [ellis, setellis] = useState();
+
+  const [index, setindex] = useState({
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+  });
+  const [drawn, setdrawn] = useState([]);
+  const [showing, setshowing] = useState(-1);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   useEffect(() => {
-    if (text != "") {
-      const words = text.split("\n");
+    if (text.length != 0) {
+      const words = text;
       const result = words.filter((word) => word.length > 6);
       const body = {
         string: result,
       };
-      console.log(body);
-      fetch("https://dark.zubairmh.xyz/detect", {
+      // console.log(body);
+      fetch("https://dark.rachancheet.me/detect", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -124,18 +139,73 @@ export default function Index({ navigateToPage }) {
       })
         .then((response) => response.json())
         .then((data) => {
+          // console.log("got responce from api 0", data);
           var dataArr = [];
           data["all_counts"].forEach((element, index) => {
+            console.log("working");
             dataArr.push({
               name: mapping[index],
               value: element,
             });
           });
-          setText("");
           setDetections(dataArr);
+          // console.log("got responce from api 1 ");
+          let ind = index;
+          for (let n = 0; n < data.pattern_id.length; n++) {
+            // if (data.pattern_id[n] != 2) {
+            // console.log("working");
+            // ah.push(ellis[n]);
+            // console.log(data.pattern_id);
+            // bh.push(data.pattern_id[n]);
+            ind[data.pattern_id[n]].push(n);
+          }
+          setindex(ind);
+          // console.log("index : ", index);
+          // }
+          // console.log("got responce from api 2 ", ah, bh, data.pattern_id);
+          // draw(ah, bh);
         });
     }
   }, [text]);
+
+  function draw(i) {
+    hide(showing);
+    if (i == showing) {
+      setshowing(-1);
+      return;
+    }
+    setshowing(i);
+
+    let msg = "draw";
+    let a = drawn;
+    if (a.includes(i)) {
+      msg = "show";
+    } else {
+      a.push(i);
+      setdrawn(a);
+    }
+    console.log("asfasf::", msg, drawn, showing, i);
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(
+        tabs[0].id,
+        { message: msg, index: index[i], i: i },
+        function (response) {}
+      );
+    });
+  }
+  function hide(i) {
+    if (i == -1) {
+      return;
+    }
+    console.log("sending hide instructions", i, drawn);
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(
+        tabs[0].id,
+        { message: "hide", index: index[i], i: i },
+        function (response) {}
+      );
+    });
+  }
 
   useEffect(() => {
     if (images.length != 0) {
@@ -150,16 +220,20 @@ export default function Index({ navigateToPage }) {
       // Listen for messages
       socket.addEventListener("message", (event) => {
         if (event.data == "OK") {
-          console.log("Message from server ", event.data);
+          // console.log("Message from server ", event.data);
         } else {
           var out = JSON.parse(event.data);
-          console.log("out", out)
+          // console.log("out", out);
           chrome.tabs.query(
             { active: true, currentWindow: true },
             function (tabs) {
               chrome.tabs.sendMessage(
                 tabs[0].id,
-                { message: "disable", link: out["link"], pattern_type: out["unique"][0] },
+                {
+                  message: "disable",
+                  link: out["link"],
+                  pattern_type: out["unique"][0],
+                },
                 function (response) {
                   console.log(response);
                 }
@@ -167,7 +241,7 @@ export default function Index({ navigateToPage }) {
               var dataArr = [];
 
               out["all_counts"].forEach((element, index) => {
-                console.log("text", detections);
+                // console.log("text", detections);
                 dataArr.push({
                   name: mapping[index],
                   value: element,
@@ -178,7 +252,7 @@ export default function Index({ navigateToPage }) {
           );
         }
         if (i <= peak) {
-          console.log(`Sending image ${i}/${peak}`)
+          console.log(`Sending image ${i}/${peak}`);
           socket.send(
             JSON.stringify({
               type: "data",
@@ -191,36 +265,11 @@ export default function Index({ navigateToPage }) {
           socket.close();
         }
       });
-      // console.log(body);
-      // setStages(1);
-      // fetch("https://dark.zubairmh.xyz/detect", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(body),
-      // })
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     var dataArr = [];
-
-      //     data["all_counts"].forEach((element, index) => {
-      //       console.log("text", detections);
-      //       dataArr.push({
-      //         name: mapping[index],
-      //         value: element,
-      //       });
-      //     });
-      //     setImageDetections(dataArr);
-      //   });
     }
   }, [images]);
 
   useEffect(() => {
-    if (
-      detections.length != 0 &&
-      imageDetections.length != 0 
-    ) {
+    if (detections.length != 0 && imageDetections.length != 0) {
       var x = [];
       detections.forEach((v, i) => {
         x.push({
@@ -241,15 +290,16 @@ export default function Index({ navigateToPage }) {
           tabs[0].id,
           { message: "getPage" },
           function (response) {
-            console.log(response);
-            setText(response);
+            console.log("getPagee : ", response);
+            setText(response[0]);
+            setellis(response[1]);
           }
         );
         chrome.tabs.sendMessage(
           tabs[0].id,
           { message: "image" },
           function (response) {
-            console.log(response);
+            // console.log(response);
             if (response.length == 0) {
               setStages(2);
             }
@@ -260,7 +310,7 @@ export default function Index({ navigateToPage }) {
           tabs[0].id,
           { message: "favicon" },
           function (response) {
-            console.log(response);
+            // console.log(response);
             setFaviconUrl(response);
           }
         );
@@ -268,7 +318,7 @@ export default function Index({ navigateToPage }) {
           tabs[0].id,
           { message: "title" },
           function (response) {
-            console.log(response);
+            // console.log(response);
             setPageTitle(response);
           }
         );
@@ -308,7 +358,7 @@ export default function Index({ navigateToPage }) {
   const renderColorfulLegendText = (value, entry) => {
     const { color } = entry;
 
-    console.log(color);
+    // console.log(color);
     return <span style={{ color: "white" }}>{value}</span>;
   };
   return (
@@ -384,9 +434,12 @@ export default function Index({ navigateToPage }) {
               {detections.length != 0 ? (
                 <div className="grid grid-cols-3  gap-3 w-full  p-3">
                   {detections.map((v, i) => {
-                    console.log(v);
+                    // console.log(v);
                     return (
-                      <div
+                      <button
+                        onClick={() => {
+                          draw(i);
+                        }}
                         key={i}
                         className="bg-[#2e3134]  rounded-md text-center p-2"
                       >
@@ -398,7 +451,7 @@ export default function Index({ navigateToPage }) {
                             </TextTransition>
                           ))}
                         </div>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
