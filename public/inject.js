@@ -8,15 +8,9 @@ chrome.runtime.onMessage.addListener(
       if (!(i.tagName === "SCRIPT" || i.tagName === "STYLE")) {
         if (i.childElementCount == 0) {
           if (i.innerText != "" && i.innerText != null) {
-            //   i.addEventListener("mouseenter", () => {
-            //     console.log(`Hovering: ${i.innerText}`);
-            //   });
-            //   i.addEventListener("mouseleave", () => {
-            //     console.log(`Left: ${i.innerText}`);
-            //   });
-            // i.style.color = "red";
             gfg.push(i);
-            text.push(i.innerText);
+            var cleanedText=i.innerText.trim().replace("\n", "");
+            text.push(cleanedText);
           }
         }
         for (j of i.childNodes) {
@@ -24,12 +18,14 @@ chrome.runtime.onMessage.addListener(
         }
       }
     }
+
     if (request.message === "getPage") {
       recurse(document.body);
       // var text = document.body.innerText;
       console.log("getPage", text, gfg);
       sendResponse([text, gfg]);
     }
+
     if (request.message === "show") {
       let ls = document.getElementsByName("WebGuard_" + request.i);
       for (let gh of ls) {
@@ -37,6 +33,7 @@ chrome.runtime.onMessage.addListener(
       }
       sendResponse([text, gfg]);
     }
+
     if (request.message === "hide") {
       let ls = document.getElementsByName("WebGuard_" + request.i);
       console.log("trying to hide ", ls);
@@ -62,6 +59,7 @@ chrome.runtime.onMessage.addListener(
         // .style.color = "red";
       }
     }
+
     if (request.message === "favicon") {
       const faviconElement = document.querySelector("link[rel*='icon']");
       const faviconUrl = faviconElement ? faviconElement.href : null;
@@ -73,6 +71,7 @@ chrome.runtime.onMessage.addListener(
       console.log("title", window.location.hostname);
       sendResponse(window.location.hostname);
     }
+
     if (request.message === "disable") {
       all[request.link]["img"].style.filter = "";
       all[request.link]["img"].parentElement.removeChild(
@@ -111,6 +110,7 @@ chrome.runtime.onMessage.addListener(
       }, 5000);
       sendResponse("OK");
     }
+
     if (request.message === "image") {
       const images = document.querySelectorAll("img");
       const links = [];
