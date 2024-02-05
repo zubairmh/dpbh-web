@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"], weight: "400" });
 
 export default function Index({ navigateToPage }) {
   const { stage } = useContext(GlobalContext);
-  
+
   return (
     <div
       style={inter.style}
@@ -38,7 +38,7 @@ export default function Index({ navigateToPage }) {
       ) : (
         <div className="flex flex-col w-full h-full items-center justify-center gap-4">
           <Loader2 className="h-32 w-32 animate-spin" />
-          <span>Analyzing page text</span>
+          <span>Analyzing page text and unchecking checkboxes</span>
         </div>
       )}
     </div>

@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener(
         if (i.childElementCount == 0) {
           if (i.innerText != "" && i.innerText != null) {
             gfg.push(i);
-            var cleanedText=i.innerText.trim().replace("\n", "");
+            var cleanedText = i.innerText.trim().replace("\n", "");
             text.push(cleanedText);
           }
         }
@@ -152,6 +152,20 @@ chrome.runtime.onMessage.addListener(
       });
       console.log("images", links);
       sendResponse(links);
+    }
+
+    /*
+    params: request.message = "uncheck"
+    Description: basically unchecks all the checkboxes on the page when the extension is clicked
+    to-do: automatically uncheck the checkboxes
+    */
+    if (request.message === "uncheck") {
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
+          checkbox.click();
+        }
+      });
     }
   }
 );
