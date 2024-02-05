@@ -162,7 +162,7 @@ chrome.runtime.onMessage.addListener(
     if (request.message === "uncheck") {
       var checkboxes = document.querySelectorAll('input[type="checkbox"]');
       checkboxes.forEach(function (checkbox) {
-        if (checkbox.checked) {
+        if (checkbox.defaultChecked === true) {
           checkbox.click();
         }
       });
