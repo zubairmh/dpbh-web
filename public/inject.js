@@ -1,6 +1,20 @@
 var all = {};
 var gfg = [];
-chrome.runtime.onMessage.addListener(
+let brw = chrome;
+if (typeof browser !== "undefined" && browser.runtime) {
+  brw = browser;
+}
+function rmPriceTags(inputString) {
+  var words = inputString.split(' ');
+  var filteredWords = words.filter(function(word) {
+    return word.indexOf('$') === -1;
+  });
+
+  var resultString = filteredWords.join(' ');
+  return resultString;
+}
+
+brw.runtime.onMessage.addListener(
   // this is the message listener
   function (request, sender, sendResponse) {
     text = [];
@@ -8,9 +22,12 @@ chrome.runtime.onMessage.addListener(
       if (!(i.tagName === "SCRIPT" || i.tagName === "STYLE")) {
         if (i.childElementCount == 0) {
           if (i.innerText != "" && i.innerText != null) {
-            gfg.push(i);
             var cleanedText = i.innerText.trim().replace("\n", "");
-            text.push(cleanedText);
+            cleanedText=rmPriceTags(cleanedText);
+            if (cleanedText.length >= 6) {
+              gfg.push(i);
+              text.push(cleanedText);
+            }
           }
         }
         for (j of i.childNodes) {
@@ -23,15 +40,23 @@ chrome.runtime.onMessage.addListener(
       recurse(document.body);
       // var text = document.body.innerText;
       console.log("getPage", text, gfg);
-      sendResponse([text, gfg]);
+      var data = JSON.stringify([text, gfg]);
+      sendResponse(data);
     }
 
     if (request.message === "show") {
       let ls = document.getElementsByName("WebGuard_" + request.i);
       for (let gh of ls) {
+        console.log("Showing: ", gh)
         gh.style.border = "1px solid red";
       }
+
+      if(ls.length>0) {
+        ls[0].scrollIntoView();
+      }
+      
       sendResponse([text, gfg]);
+
     }
 
     if (request.message === "hide") {
@@ -57,6 +82,9 @@ chrome.runtime.onMessage.addListener(
         i.parentNode.insertBefore(wrapperDiv, i);
         wrapperDiv.appendChild(i);
         // .style.color = "red";
+      }
+      if(request.index.length>0) {
+        gfg[request.index[0]].scrollIntoView();
       }
     }
 

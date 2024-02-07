@@ -2,6 +2,12 @@ import { useEffect, useContext } from "react";
 import { mapping } from "@/lib/globals";
 import { GlobalContext } from "@/context/GlobalContext";
 export default function SendImages() {
+  let brw=null;
+  if (typeof chrome !== 'undefined' && chrome.runtime) {
+    brw = chrome;
+  } else if (typeof browser !== "undefined" && browser.runtime) {
+    brw = browser;
+  }
   const { images, setImageDetections, setStages } = useContext(GlobalContext);
   useEffect(() => {
     if (images.length != 0) {
@@ -10,7 +16,7 @@ export default function SendImages() {
       //   };
       setStages(1);
       var x = images.slice();
-      const socket = new WebSocket("wss://dark.zubairmh.xyz/ws");
+      const socket = new WebSocket("wss://dark.rachancheet.me/ws");
       var i = 0;
       var peak = x.length - 1;
 
@@ -20,10 +26,10 @@ export default function SendImages() {
           // console.log("Message from server ", event.data);
         } else {
           var out = JSON.parse(event.data);
-          chrome.tabs.query(
+          brw.tabs.query(
             { active: true, currentWindow: true },
             function (tabs) {
-              chrome.tabs.sendMessage(
+              brw.tabs.sendMessage(
                 tabs[0].id,
                 {
                   message: "disable",

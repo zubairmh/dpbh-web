@@ -2,27 +2,35 @@ import { GlobalContext } from "@/context/GlobalContext";
 import { useContext, useEffect } from "react";
 
 export default function Launch() {
+  let brw=null;
+  if (typeof chrome !== 'undefined' && chrome.runtime) {
+    brw = chrome;
+  } else if (typeof browser !== "undefined" && browser.runtime) {
+    brw = browser;
+  }
   const { setStages, setFaviconUrl, setImages, setText, setPageTitle } =
     useContext(GlobalContext);
   useEffect(() => {
     const id = setTimeout(() => {
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      brw.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         setStages(0);
         // uncheck checkbox
-        chrome.tabs.sendMessage(
+        brw.tabs.sendMessage(
           tabs[0].id,
           { message: "uncheck" },
           (response) => {}
         );
-        chrome.tabs.sendMessage(
+        brw.tabs.sendMessage(
           tabs[0].id,
           { message: "getPage" },
           function (response) {
             // console.log("getPagee : ", response);
-            setText(response[0]);
+            console.log("abcd", response)
+            var data=JSON.parse(response);
+            setText(data[0]);
           }
         );
-        chrome.tabs.sendMessage(
+        brw.tabs.sendMessage(
           tabs[0].id,
           { message: "image" },
           function (response) {
@@ -33,7 +41,7 @@ export default function Launch() {
             setImages(response);
           }
         );
-        chrome.tabs.sendMessage(
+        brw.tabs.sendMessage(
           tabs[0].id,
           { message: "favicon" },
           function (response) {
@@ -41,7 +49,7 @@ export default function Launch() {
             setFaviconUrl(response);
           }
         );
-        chrome.tabs.sendMessage(
+        brw.tabs.sendMessage(
           tabs[0].id,
           { message: "title" },
           function (response) {

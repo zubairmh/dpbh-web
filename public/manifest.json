@@ -1,19 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "NEXT-CHROME-STARTER",
-  "short_name": "N-C-S",
-  "version": "0.0.1",
-  "description": "Next.js Chrome Extension Starter, Demo Example by ibnzUK. https://github.com/ibnzUK/next-chrome-starter",
+  "name": "WebGuard",
+  "short_name": "WG",
+  "version": "2.0",
+  "description": "WebGuard is a multimodal dark pattern detector and blocker",
   "icons": {
-    "16": "/icons/icon16.png",
-    "32": "/icons/icon32.png",
-    "48": "/icons/icon48.png",
-    "192": "/icons/icon192.png"
+    "16": "/police.png",
+    "32": "/police.png",
+    "48": "/police.png",
+    "192": "/police.png"
   },
-  "permissions": [],
+  "permissions": ["activeTab"],
   "web_accessible_resources": [
     {
-      "resources": ["index.html"],
+      "resources": ["/*"],
       "matches": ["<all_urls>"]
     }
   ],

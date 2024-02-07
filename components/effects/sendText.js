@@ -6,10 +6,10 @@ export default function SendText() {
 
   useEffect(() => {
     if (text.length != 0) {
+      console.log("Sending Text")
       const words = text;
-      const result = words.filter((word) => word.length > 6);
       const body = {
-        string: result,
+        string: words,
       };
       // console.log(body);
       fetch("https://dark.rachancheet.me/detect", {
@@ -21,7 +21,7 @@ export default function SendText() {
       })
         .then((response) => response.json())
         .then((data) => {
-          // console.log("got responce from api 0", data);
+          console.log("got response from api 0", data);
           var dataArr = [];
           data["all_counts"].forEach((element, index) => {
             console.log("working");
@@ -31,7 +31,7 @@ export default function SendText() {
             });
           });
           setDetections(dataArr);
-          // console.log("got responce from api 1 ");
+          console.log("got response from api 1 ");
           let ind = index;
           for (let n = 0; n < data.pattern_id.length; n++) {
             // if (data.pattern_id[n] != 2) {
@@ -42,7 +42,7 @@ export default function SendText() {
             ind[data.pattern_id[n]].push(n);
           }
           setindex(ind);
-          // console.log("index : ", index);
+          console.log("index : ", index);
           // }
           // console.log("got responce from api 2 ", ah, bh, data.pattern_id);
           // draw(ah, bh);
