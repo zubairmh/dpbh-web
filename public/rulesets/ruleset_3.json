@@ -1,0 +1,216 @@
+[
+  {
+    "id": 2,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": ".*google.com\/.*\/(naLogImpressions).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "xmlhttprequest"
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": ".*vk.com\/(performance_observers|userInfoStats|sentry|px.js|videostats|rtrg).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "script",
+        "xmlhttprequest",
+        "other"
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": "drift.com\/(impressions|targeting|track).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "script",
+        "xmlhttprequest",
+        "csp_report"
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": "hubspot.com\/(analytics|loader-v2.js|tracking|usage-logging).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "script",
+        "xmlhttprequest"
+      ]
+    }
+  },
+  {
+    "id": 7,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": "amazon.com\/(empty.gif|batch\/1\/OE|ah\/ajax\/counter|events).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "script",
+        "xmlhttprequest"
+      ]
+    }
+  },
+  {
+    "id": 11,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": "bing.com\/(fd\/ls\/l.*IG.*).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "xmlhttprequest"
+      ]
+    }
+  },
+  {
+    "id": 12,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": "pinterest.com\/(storage_report|StatsLogResource|string_usage).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "xmlhttprequest"
+      ]
+    }
+  },
+  {
+    "id": 13,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": "ebay.com\/.*\/(roverimp|delstats|dfpsvc|roverclk|ScandalLoader.js).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "xmlhttprequest",
+        "image"
+      ]
+    }
+  },
+  {
+    "id": 14,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": "usps.com\/.*\/(clear.png|__imp_apg__).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "script",
+        "image"
+      ]
+    }
+  },
+  {
+    "id": 15,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": "tiktok.com\/.*\/(report|whale).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "script",
+        "image"
+      ]
+    }
+  },
+  {
+    "id": 16,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": ".*indeed.com\/.*(logType=impression&|logType=trackEvent&|rpc|frontend-sentry-).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "xmlhttprequest",
+        "script",
+        "image"
+      ]
+    }
+  },
+  {
+    "id": 17,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": ".*usatoday.com\/.*(\/dcjs\/prod\/|pbjsandwich).*",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "xmlhttprequest",
+        "script",
+        "image"
+      ]
+    }
+  },
+  {
+    "id": 18,
+    "priority": 2,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": "^https:\/\/www.reddit.com\/svc\/shreddit\/[0-9A-z]{9,}",
+      "resourceTypes": [
+        "main_frame",
+        "sub_frame",
+        "stylesheet",
+        "script",
+        "xmlhttprequest",
+        "media",
+        "websocket"
+      ]
+    }
+  },
+  {
+    "id": 19,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": ":\/\/rkn.gov.ru\/*.gif",
+      "domainType": "firstParty",
+      "resourceTypes": [
+        "script"
+      ]
+    }
+  }
+]
