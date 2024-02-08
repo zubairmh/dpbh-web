@@ -5,12 +5,12 @@ if (typeof browser !== "undefined" && browser.runtime) {
   brw = browser;
 }
 function rmPriceTags(inputString) {
-  var words = inputString.split(' ');
-  var filteredWords = words.filter(function(word) {
-    return word.indexOf('$') === -1;
+  var words = inputString.split(" ");
+  var filteredWords = words.filter(function (word) {
+    return word.indexOf("$") === -1;
   });
 
-  var resultString = filteredWords.join(' ');
+  var resultString = filteredWords.join(" ");
   return resultString;
 }
 
@@ -23,7 +23,7 @@ brw.runtime.onMessage.addListener(
         if (i.childElementCount == 0) {
           if (i.innerText != "" && i.innerText != null) {
             var cleanedText = i.innerText.trim().replace("\n", "");
-            cleanedText=rmPriceTags(cleanedText);
+            cleanedText = rmPriceTags(cleanedText);
             if (cleanedText.length >= 6) {
               gfg.push(i);
               text.push(cleanedText);
@@ -47,16 +47,15 @@ brw.runtime.onMessage.addListener(
     if (request.message === "show") {
       let ls = document.getElementsByName("WebGuard_" + request.i);
       for (let gh of ls) {
-        console.log("Showing: ", gh)
+        console.log("Showing: ", gh);
         gh.style.border = "1px solid red";
       }
 
-      if(ls.length>0) {
+      if (ls.length > 0) {
         ls[0].scrollIntoView();
       }
-      
-      sendResponse([text, gfg]);
 
+      sendResponse([text, gfg]);
     }
 
     if (request.message === "hide") {
@@ -83,7 +82,7 @@ brw.runtime.onMessage.addListener(
         wrapperDiv.appendChild(i);
         // .style.color = "red";
       }
-      if(request.index.length>0) {
+      if (request.index.length > 0) {
         gfg[request.index[0]].scrollIntoView();
       }
     }
@@ -194,6 +193,30 @@ brw.runtime.onMessage.addListener(
           checkbox.click();
         }
       });
+    }
+    if (request.message === "startSaber") {
+      function removeClickedElement(event) {
+        event.target.remove();
+        document.body.style.overflow = "auto";
+      }
+
+      function handleKeyPress(event) {
+        if (event.key === "Escape") {
+          document.body.removeEventListener("click", removeClickedElement);
+          style.parentNode.removeChild(style);
+        }
+      }
+
+      document.body.addEventListener("click", removeClickedElement);
+      document.addEventListener("keydown", handleKeyPress);
+
+      var style = document.createElement("style");
+      style.textContent = `
+        *:hover {
+            box-shadow: 0 0 10px yellow !important;
+        }
+    `;
+      document.head.appendChild(style);
     }
   }
 );
