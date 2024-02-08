@@ -196,6 +196,7 @@ brw.runtime.onMessage.addListener(
     }
     if (request.message === "startSaber") {
       function removeClickedElement(event) {
+        event.preventDefault();
         event.target.remove();
         document.body.style.overflow = "auto";
       }
