@@ -1,9 +1,13 @@
 import { GlobalContext } from "@/context/GlobalContext";
 import { useContext } from "react";
 import { Loader2 } from "lucide-react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+
+
+
 export default function Navbar() {
-    const {stage, detections}=useContext(GlobalContext)
-    return (
+  const { stage, detections, setActivePage } = useContext(GlobalContext)
+  return (
     <div className="flex flex-row items-center justify-start gap-4 rounded p-4 shadow-xl ">
       <img src="/police.png" width="20px" height="15px"></img>
       <h1 className=" text-xl text-center font-bold  text-white">WebGuard</h1>
@@ -15,6 +19,7 @@ export default function Navbar() {
             <span>Analyzing images</span>
           </div>
         ) : (
+
           <>
             <span>Connection: </span>
             <div
@@ -24,7 +29,11 @@ export default function Navbar() {
               className="h-3 w-3 rounded-full"
             ></div>
           </>
+
         )}
+        <div className="">
+          <button onClick={() => setActivePage("settings")}><BsThreeDotsVertical /></button>
+        </div>
       </div>
     </div>
   );

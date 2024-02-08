@@ -11,18 +11,23 @@ import { GlobalContext } from "@/context/GlobalContext";
 import * as effects from "@/components/effects";
 const inter = Inter({ subsets: ["latin"], weight: "400" });
 
-export default function Index({ navigateToPage }) {
+export default function Index() {
   const { stage } = useContext(GlobalContext);
-
+  const env = process.env.NODE_ENV;
   return (
     <div
       style={inter.style}
       className="bg-[#24272a] w-[400px] h-auto flex flex-col gap-2 rounded-md text-white overflow-hidden"
     >
-      <effects.Launch />
-      <effects.SendText />
-      <effects.SendImages />
-      <effects.UpdateDetections />
+      {env === "production" && (
+        <>
+          <effects.Launch />
+          <effects.SendText />
+          <effects.SendImages />
+          <effects.UpdateDetections />
+        </>
+      )}
+
 
       <Navbar />
       {stage == 2 || stage == 1 ? (

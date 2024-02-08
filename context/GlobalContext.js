@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 export const GlobalContext = React.createContext([]);
 export default function GlobalProvider({ children }) {
-  const [tabs, setTabs] = useState(0);
+  const [tabs, setTabs] = useState();
   const [text, setText] = useState([]);
   const [images, setImages] = useState([]);
   const [faviconUrl, setFaviconUrl] = useState("/");
   const [pageTitle, setPageTitle] = useState("untitled");
-  const [stage, setStages] = useState(0);
+  const [stage, setStages] = useState(2);
   const [detections, setDetections] = useState([]);
   const [imageDetections, setImageDetections] = useState([]);
+  const [activePage, setActivePage] = useState('index');
   const [index, setindex] = useState({
     0: [],
     1: [],
@@ -36,6 +37,7 @@ export default function GlobalProvider({ children }) {
         index: index,
         drawn: drawn,
         showing: showing,
+        activePage: activePage,
 
         // Setter
         setTabs: setTabs,
@@ -49,6 +51,7 @@ export default function GlobalProvider({ children }) {
         setindex: setindex,
         setdrawn: setdrawn,
         setshowing: setshowing,
+        setActivePage: setActivePage,
       }}
     >
       {children}
