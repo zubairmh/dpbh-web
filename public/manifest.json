@@ -10,7 +10,42 @@
     "48": "/police.png",
     "192": "/police.png"
   },
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab","declarativeNetRequest"],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rulesets/ruleset_1.json"
+      },
+      {
+        "id": "ruleset_2",
+        "enabled": true,
+        "path": "rulesets/ruleset_2.json"
+      },
+      {
+        "id": "ruleset_3",
+        "enabled": true,
+        "path": "rulesets/ruleset_3.json"
+      },
+      {
+        "id": "ruleset_4",
+        "enabled": true,
+        "path": "rulesets/ruleset_4.json"
+      },
+      {
+        "id": "ruleset_5",
+        "enabled": true,
+        "path": "rulesets/ruleset_5.json"
+      },
+      {
+        "id": "ruleset_6",
+        "enabled": true,
+        "path": "rulesets/ruleset_6.json"
+      }
+    ]
+  }, 
+
   "web_accessible_resources": [
     {
       "resources": ["/*"],
