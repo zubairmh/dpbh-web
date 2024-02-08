@@ -6,7 +6,12 @@ import TextTransition, { presets } from "react-text-transition";
 export default function HomeTab() {
   const { tabs, detections, showing, setshowing, drawn, setdrawn, index } =
     useContext(GlobalContext);
-
+  let brw = null;
+  if (typeof chrome !== "undefined" && chrome.runtime) {
+    brw = chrome;
+  } else if (typeof browser !== "undefined" && browser.runtime) {
+    brw = browser;
+  }
   function draw(i) {
     hide(showing);
     if (i == showing) {
@@ -24,8 +29,8 @@ export default function HomeTab() {
       setdrawn(a);
     }
     console.log("asfasf::", msg, drawn, showing, i);
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(
+    brw.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      brw.tabs.sendMessage(
         tabs[0].id,
         { message: msg, index: index[i], i: i },
         function (response) {}
@@ -37,8 +42,8 @@ export default function HomeTab() {
       return;
     }
     console.log("sending hide instructions", i, drawn);
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(
+    brw.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      brw.tabs.sendMessage(
         tabs[0].id,
         { message: "hide", index: index[i], i: i },
         function (response) {}
@@ -81,10 +86,10 @@ export default function HomeTab() {
             className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
             id="startSaber"
             onClick={() => {
-              chrome.tabs.query(
+              brw.tabs.query(
                 { active: true, currentWindow: true },
                 function (tabs) {
-                  chrome.tabs.sendMessage(
+                  brw.tabs.sendMessage(
                     tabs[0].id,
                     { message: "startSaber" },
                     (response) => {}
