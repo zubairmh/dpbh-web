@@ -93,7 +93,7 @@ export default function HomeTab() {
               );
             }}
           >
-            Use Saber to remove unwanted elements
+            Use Saber ⚔ to remove unwanted elements
           </button>
         </>
       ) : (
