@@ -57,8 +57,14 @@ export default function Launch() {
             setPageTitle(response);
           }
         );
+        brw.tabs.sendMessage(
+          tabs[0].id,
+          { message: "getData" },
+          function (response) {
+            console.log("========= GET DATA =========", response);
+          });
       });
-    }, 2000);
+    }, 10000);
     return () => clearTimeout(id);
   }, []);
   return <></>;

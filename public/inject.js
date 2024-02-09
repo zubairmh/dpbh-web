@@ -1,9 +1,14 @@
 var all = {};
 var gfg = [];
+var urls = [];
+
 let brw = chrome;
 if (typeof browser !== "undefined" && browser.runtime) {
   brw = browser;
 }
+
+
+
 function rmPriceTags(inputString) {
   var words = inputString.split(" ");
   var filteredWords = words.filter(function (word) {
