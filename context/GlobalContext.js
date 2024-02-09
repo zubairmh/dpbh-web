@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 export const GlobalContext = React.createContext([]);
 export default function GlobalProvider({ children }) {
-  const [tabs, setTabs] = useState();
+  const [tabs, setTabs] = useState(0);
   const [text, setText] = useState([]);
   const [images, setImages] = useState([]);
   const [faviconUrl, setFaviconUrl] = useState("/");
   const [pageTitle, setPageTitle] = useState("untitled");
-  const [stage, setStages] = useState(2);
+  const [stage, setStages] = useState(0);
   const [detections, setDetections] = useState([]);
   const [imageDetections, setImageDetections] = useState([]);
-  const [activePage, setActivePage] = useState('index');
+  const [activePage, setActivePage] = useState("index");
   const [index, setindex] = useState({
     0: [],
     1: [],

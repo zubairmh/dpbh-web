@@ -35,6 +35,151 @@ brw.runtime.onMessage.addListener(
         }
       }
     }
+    function handleElementSelection(event) {
+      document.getElementById("customhover").remove();
+      document.body.removeEventListener("click", handleElementSelection, true);
+      event.preventDefault();
+      event.stopPropagation();
+
+      var tagName = event.target.tagName;
+      var classNames = Array.from(event.target.classList);
+      var attributes = Array.from(event.target.attributes);
+
+      let obj = {
+        // tagName: tagName,
+        // classNames: classNames,
+        // attributes: attributes,
+        text: event.target.innerText,
+      };
+
+      tmp = document.createElement("div");
+      tmp.id = "floating-window";
+      tmp.className = "floating-window";
+      tmp.innerHTML = `
+      <div class="window-header">
+    <h2>Settings</h2>
+    <button id="close-btn" class="close-btn">×</button>
+  </div>
+  <div class="window-content">
+    <label for="dropdown">Choose an option:</label>
+    <form>
+    <select name="whichelement" id="whichelement">
+ <option value="Urgency">Urgency</option>
+  <option value="Misdirection">Misdirection</option>
+  <option value="Not Dark Pattern">Not Dark Pattern</option>
+  <option value="Scarcity">Scarcity</option>
+  <option value="Obstruction">Obstruction</option>
+  <option value="Social Proof">Social Proof</option>
+  <option value="Sneaking">Sneaking</option>
+  <option value="Forced Action">Forced Action</option>
+    </select>
+    <button disabled id="elementsend">Send feed back</button>
+    </form>
+  </div>
+      
+      `;
+      const style = document.createElement("style");
+      style.textContent = `
+      .floating-window {
+        z-index:99999;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        background-color: #f9f9f9;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+      
+      .window-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      
+      .window-header h2 {
+        margin: 0;
+      }
+      
+      .close-btn {
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      
+      .window-content {
+        padding: 20px;
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+      
+      select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+      
+      select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+      }
+      `;
+      document.head.after(style);
+      document.body.after(tmp);
+      // obj = {};
+      const ng = tmp.getElementsByTagName("select");
+      const bt = tmp.getElementsByTagName("button");
+      ng[0].addEventListener("click", () => {
+        bt[1].disabled = false;
+      });
+
+      function submitfeedback(obj) {
+        console.log("sending msg", obj);
+        fetch("https://dark.rachancheet.me/feedback", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(obj),
+        });
+      }
+
+      const frm = tmp.getElementsByTagName("form");
+      frm[0].addEventListener("submit", (e) => {
+        e.preventDefault();
+        obj.pattern = e.target.elements["whichelement"].value;
+        console.log(obj);
+        submitfeedback(obj);
+        tmp.remove();
+      });
+    }
+
+    if (request.message == "selector") {
+      var style = document.createElement("style");
+      style.id = "customhover";
+      style.textContent = `
+        *:hover {
+            box-shadow: 0 0 10px yellow !important;
+        }
+    `;
+      document.head.appendChild(style);
+      document.body.addEventListener("click", handleElementSelection, true);
+      sendResponse("never done");
+    }
 
     if (request.message === "getPage") {
       recurse(document.body);
