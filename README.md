@@ -59,7 +59,14 @@ The *Dark Patterns Detector* is a sophisticated web extension developed with *Ne
 | <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/firefox.svg" width="24px" style="background: white" /> Mozilla Firefox 	|        ✅       	| <ul><li>113.0 (Mac/arm64)</li><li>112.0.2 (Win/x64)</li></ul>   	|
 | <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/opera.svg" width="24px" style="background: white" /> Opera           	|        ✅       	| <ul><li>98.0.4759.39 (Mac/arm64)</li><li>98.0.4759.39 (Win/x64)</ul></li>       	|
 
+### Google Chrome, Microsoft Edge and Opera
+The Pattern Highlighter uses an [API](https://developer.chrome.com/docs/extensions/reference/) that is specified by Google and primarily supported by the Google Chrome browser. However, many other browsers also support this Chrome API. Since Microsoft Edge and Opera, just like Google Chrome, are built on the [Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)) code base, the [API support](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Browser_support_for_JavaScript_APIs) of the three browsers is almost completely identical. Consequently, the extension will behave the same way in these browsers. This is also to be expected for other browsers that are based on Chromium.
 
+### Firefox
+Firefox also supports the Chrome API with [some differences and limitations](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Chrome_incompatibilities). For the Pattern Highlighter it is only relevant that Firefox [does not support](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json#browser_compatibility) the `background.service_worker` key in the [manifest file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json) of extensions to define scripts that run in the background. Instead, it supports the `background.scripts` key, which is not supported by Chrome. Therefore, the Firefox version of the extension requires a custom manifest file. The other files are the same as in the Chrome version of the extension. The section on [installation in Firefox](#firefox) explains how to create the Firefox version.
+
+### Safari
+Safari also supports the Chrome API functions required by the Pattern Highlighter. Thus, the Pattern Highlighter is functionally fully compatible with Safari. However, Safari uses its own format for extensions, which differs from the other browsers. Therefore, the code of the Pattern Highlighter must first be converted to a Safari extension. This can conveniently be done automatically and is described in the section on [installation in Safari](#safari-1).
 ### Usage
 
 - **Automatic Detection:** The extension seamlessly scans webpages, automatically identifying and categorizing dark patterns.
