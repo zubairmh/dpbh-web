@@ -10,6 +10,11 @@
     "48": "/police.png",
     "192": "/police.png"
   },
+  "browser_specific_settings": {
+    "gecko": {
+      "id":"goyalparag54@gmail.com"
+    }
+  },
   "permissions": ["activeTab","declarativeNetRequest"],
   "declarative_net_request": {
     "rule_resources": [
