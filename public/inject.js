@@ -227,7 +227,9 @@ brw.runtime.onMessage.addListener(
         let i = gfg[gh];
         wrapperDiv = document.createElement("div");
         wrapperDiv.setAttribute("name", "WebGuard_" + String(request.i));
-        wrapperDiv.style.border = "1px solid red";
+        wrapperDiv.style =
+          "border: 2px solid red; border-radius:4px;   padding:4px;";
+        // wrapperDiv.style.border = "1px solid red";
         i.parentNode.insertBefore(wrapperDiv, i);
         wrapperDiv.appendChild(i);
         // .style.color = "red";
