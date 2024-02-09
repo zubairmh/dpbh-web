@@ -1,7 +1,7 @@
 var all = {};
 var gfg = [];
 let brw = chrome;
-
+var ls = [];
 const mappings = [
   "Urgency",
   "Misdirection",
@@ -71,7 +71,13 @@ brw.runtime.onMessage.addListener(
       }
     }
     function handleElementSelection(event) {
-      document.getElementById("customhover").remove();
+      // document.getElementById("customhover").remove();
+
+      const allElements = document.querySelectorAll("*");
+      allElements.forEach((el) => {
+        el.removeEventListener("mouseover", border);
+        el.removeEventListener("mouseout", borderm);
+      });
       document.body.removeEventListener("click", handleElementSelection, true);
       event.preventDefault();
       event.stopPropagation();
@@ -202,17 +208,26 @@ brw.runtime.onMessage.addListener(
         tmp.remove();
       });
     }
-
+    function border(event) {
+      ls.forEach((ele) => {
+        ele.style.border = "none";
+      });
+      ls.push(event.target);
+      event.target.style.border = "2px solid red";
+    }
+    function borderm(event) {
+      event.target.style.border = "none";
+    }
     if (request.message == "selector") {
-      var style = document.createElement("style");
-      style.id = "customhover";
-      style.textContent = `
-        *:hover {
-            box-shadow: 0 0 10px yellow !important;
-        }
-    `;
-      document.head.appendChild(style);
       document.body.addEventListener("click", handleElementSelection, true);
+      const allElements = document.querySelectorAll("*");
+      allElements.forEach((element) => {
+        element.addEventListener("mouseover", border);
+
+        // Remove the border when mouse leaves the element
+        element.addEventListener("mouseout", borderm);
+      });
+
       sendResponse("never done");
     }
 
@@ -288,12 +303,14 @@ brw.runtime.onMessage.addListener(
         for (let j = 0; j < request.index[i].length; j++) {
           wrapperDiv = document.createElement("div");
           wrapperDiv.setAttribute("name", "WebGuard_" + String(i));
-          wrapperDiv.className = "tooltip";
           wrapperDiv.style = `border: none; border-radius:4px;   padding:2px;`;
-          spn = document.createElement("span");
-          spn.className = "tooltiptext";
-          spn.innerText = mappings[i];
-          wrapperDiv.appendChild(spn);
+          if (i != 2) {
+            wrapperDiv.className = "tooltip";
+            spn = document.createElement("span");
+            spn.className = "tooltiptext";
+            spn.innerText = mappings[i];
+            wrapperDiv.appendChild(spn);
+          }
           gfg[request.index[i][j]].parentNode.insertBefore(
             wrapperDiv,
             gfg[request.index[i][j]]
