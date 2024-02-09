@@ -2,7 +2,7 @@ import { GlobalContext } from "@/context/GlobalContext";
 import { Loader2 } from "lucide-react";
 import { useContext } from "react";
 import TextTransition, { presets } from "react-text-transition";
-
+import Selectelement from "../selectelement";
 export default function HomeTab() {
   const { tabs, detections, showing, setshowing, drawn, setdrawn, index } =
     useContext(GlobalContext);
@@ -100,6 +100,7 @@ export default function HomeTab() {
           >
             Use Saber ⚔ to remove unwanted elements
           </button>
+          <Selectelement />
         </>
       ) : (
         <div className="flex flex-col w-full h-full items-center justify-center">
