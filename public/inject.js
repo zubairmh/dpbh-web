@@ -1,6 +1,18 @@
 var all = {};
 var gfg = [];
 let brw = chrome;
+
+const mappings = [
+  "Urgency",
+  "Misdirection",
+  "Not Dark Pattern",
+  "Scarcity",
+  "Obstruction",
+  "Social Proof",
+  "Sneaking",
+  "Forced Action",
+];
+
 if (typeof browser !== "undefined" && browser.runtime) {
   brw = browser;
 }
@@ -13,15 +25,38 @@ function rmPriceTags(inputString) {
   var resultString = filteredWords.join(" ");
   return resultString;
 }
+function isNodeVisible(node) {
+  if (!node) return false;
+  // const style = window.getComputedStyle(node);
+  if (
+    node.style.display === "none" ||
+    node.style.visibility === "hidden" ||
+    node.style.opacity === "0"
+  ) {
+    return false;
+  }
+  const rect = node.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) {
+    return false;
+  }
+  return true;
+}
 
 brw.runtime.onMessage.addListener(
-  // this is the message listener
+  // this is the message listene
   function (request, sender, sendResponse) {
     text = [];
     function recurse(i) {
-      if (!(i.tagName === "SCRIPT" || i.tagName === "STYLE")) {
+      if (
+        !(
+          i.nodeType === 8 ||
+          i.tagName === "SCRIPT" ||
+          i.tagName === "STYLE" ||
+          i.tagName === "NOSCRIPT"
+        )
+      ) {
         if (i.childElementCount == 0) {
-          if (i.innerText != "" && i.innerText != null) {
+          if (i.innerText != "" && i.innerText != null && isNodeVisible(i)) {
             var cleanedText = i.innerText.trim().replace("\n", "");
             cleanedText = rmPriceTags(cleanedText);
             if (cleanedText.length >= 6) {
@@ -190,10 +225,12 @@ brw.runtime.onMessage.addListener(
     }
 
     if (request.message === "show") {
+      console.log("her");
       let ls = document.getElementsByName("WebGuard_" + request.i);
+      console.log("daf");
       for (let gh of ls) {
         console.log("Showing: ", gh);
-        gh.style.border = "1px solid red";
+        gh.style.border = "2px solid red";
       }
 
       if (ls.length > 0) {
@@ -212,25 +249,58 @@ brw.runtime.onMessage.addListener(
       }
       sendResponse([text, gfg]);
     }
+    if (request.message == "tooltip") {
+    }
 
     if (request.message === "draw") {
-      for (let gh of request.index) {
-        //   request.ah[gh].addEventListener("mouseenter", () => {
-        //     console.log(`Hovering over : ${request.bh[gh]}`);
-        //   });
-        console.log("drawing", gfg);
-        let i = gfg[gh];
-        wrapperDiv = document.createElement("div");
-        wrapperDiv.setAttribute("name", "WebGuard_" + String(request.i));
-        wrapperDiv.style =
-          "border: 2px solid red; border-radius:4px;   padding:4px;";
-        // wrapperDiv.style.border = "1px solid red";
-        i.parentNode.insertBefore(wrapperDiv, i);
-        wrapperDiv.appendChild(i);
-        // .style.color = "red";
-      }
-      if (request.index.length > 0) {
-        gfg[request.index[0]].scrollIntoView();
+      const stl = document.createElement("style");
+      stl.textContent = `
+  .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  
+  position: absolute;
+  z-index: 1;
+  }
+  .tooltip:hover .tooltiptext {
+  visibility: visible;
+  }
+      
+      `;
+      document.body.after(stl);
+      const nh = request.index;
+      console.log("123drawing", nh, nh.length);
+      for (let i = 0; i < Object.keys(request.index).length; i++) {
+        // if (i != 2) {
+        console.log(i, request.index[i].length);
+        for (let j = 0; j < request.index[i].length; j++) {
+          wrapperDiv = document.createElement("div");
+          wrapperDiv.setAttribute("name", "WebGuard_" + String(i));
+          wrapperDiv.className = "tooltip";
+          wrapperDiv.style = `border: none; border-radius:4px;   padding:2px;`;
+          spn = document.createElement("span");
+          spn.className = "tooltiptext";
+          spn.innerText = mappings[i];
+          wrapperDiv.appendChild(spn);
+          gfg[request.index[i][j]].parentNode.insertBefore(
+            wrapperDiv,
+            gfg[request.index[i][j]]
+          );
+          wrapperDiv.appendChild(gfg[request.index[i][j]]);
+        }
+        // }
       }
     }
 

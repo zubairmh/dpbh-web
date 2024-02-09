@@ -2,8 +2,8 @@ import { GlobalContext } from "@/context/GlobalContext";
 import { useContext, useEffect } from "react";
 
 export default function Launch() {
-  let brw=null;
-  if (typeof chrome !== 'undefined' && chrome.runtime) {
+  let brw = null;
+  if (typeof chrome !== "undefined" && chrome.runtime) {
     brw = chrome;
   } else if (typeof browser !== "undefined" && browser.runtime) {
     brw = browser;
@@ -25,8 +25,8 @@ export default function Launch() {
           { message: "getPage" },
           function (response) {
             // console.log("getPagee : ", response);
-            console.log("abcd", response)
-            var data=JSON.parse(response);
+            console.log("abcd", response);
+            var data = JSON.parse(response);
             setText(data[0]);
           }
         );
