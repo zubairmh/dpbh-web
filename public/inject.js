@@ -218,6 +218,7 @@ brw.runtime.onMessage.addListener(
         }
     `;
       document.head.appendChild(style);
+      sendResponse("OK")
     }
   }
 );
