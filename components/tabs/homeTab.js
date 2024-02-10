@@ -1,8 +1,7 @@
 import { GlobalContext } from "@/context/GlobalContext";
 import { Loader2 } from "lucide-react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import TextTransition, { presets } from "react-text-transition";
-import Generatereport from "../generatedoc";
 import Selectelement from "../selectelement";
 export default function HomeTab() {
   const { tabs, detections, showing, setshowing, drawn, setdrawn, index } =
@@ -20,20 +19,11 @@ export default function HomeTab() {
       return;
     }
     setshowing(i);
-
-    let msg = "draw";
-    let a = drawn;
-    if (a.includes(i)) {
-      msg = "show";
-    } else {
-      a.push(i);
-      setdrawn(a);
-    }
-    console.log("asfasf::", msg, drawn, showing, i);
+    console.log("sending show instructs : ", index);
     brw.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       brw.tabs.sendMessage(
         tabs[0].id,
-        { message: msg, index: index[i], i: i },
+        { message: "show", index: index[i], i: i },
         function (response) {}
       );
     });
@@ -102,7 +92,6 @@ export default function HomeTab() {
             Use Saber ⚔ to remove unwanted elements
           </button>
           <Selectelement />
-          <Generatereport />
         </>
       ) : (
         <div className="flex flex-col w-full h-full items-center justify-center">

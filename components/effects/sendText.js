@@ -2,11 +2,17 @@ import { GlobalContext } from "@/context/GlobalContext";
 import { mapping } from "@/lib/globals";
 import { useContext, useState, useEffect } from "react";
 export default function SendText() {
-  const {setDetections, text, index, setindex} = useContext(GlobalContext)
+  const { setDetections, text, index, setindex } = useContext(GlobalContext);
 
+  let brw = null;
+  if (typeof chrome !== "undefined" && chrome.runtime) {
+    brw = chrome;
+  } else if (typeof browser !== "undefined" && browser.runtime) {
+    brw = browser;
+  }
   useEffect(() => {
     if (text.length != 0) {
-      console.log("Sending Text")
+      console.log("Sending Text");
       const words = text;
       const body = {
         string: words,
@@ -34,22 +40,24 @@ export default function SendText() {
           console.log("got response from api 1 ");
           let ind = index;
           for (let n = 0; n < data.pattern_id.length; n++) {
-            // if (data.pattern_id[n] != 2) {
-            // console.log("working");
-            // ah.push(ellis[n]);
-            // console.log(data.pattern_id);
-            // bh.push(data.pattern_id[n]);
             ind[data.pattern_id[n]].push(n);
           }
           setindex(ind);
+          console.log("index recived ");
+          brw.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              brw.tabs.sendMessage(
+                tabs[0].id,
+                { message: "draw", index: index },
+                function (response) {}
+              );
+            }
+          );
           console.log("index : ", index);
-          // }
-          // console.log("got responce from api 2 ", ah, bh, data.pattern_id);
-          // draw(ah, bh);
         });
     }
   }, [text]);
-
 
   return <></>;
 }
