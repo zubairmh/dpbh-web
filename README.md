@@ -1,13 +1,16 @@
 
 
 
-# Dark Patterns Detector
+# WebGuard : Dark Patterns Detector
 
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![GitHub Forks](https://img.shields.io/github/forks/zubairmh/dpbh-web?style=social)
 ![GitHub Stars](https://img.shields.io/github/stars/zubairmh/dpbh-web?style=social)
 ![GitHub Pull Requests](https://img.shields.io/github/issues-pr/zubairmh/dpbh-web?style=social)
+
+![Guard](https://github.com/zubairmh/dpbh-web/assets/113838495/b591ea7a-e2b6-4cf3-a692-d814c3778d93)
+
 ## Overview
 
 The *Dark Patterns Detector* is a sophisticated web extension developed with *Next.js*, designed to systematically identify and analyze deceptive design elements, commonly known as "dark patterns," prevalent on various websites. These manipulative tactics exploit user behavior, and this extension aims to empower users by exposing and providing insights into such practices.
