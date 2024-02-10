@@ -1,13 +1,16 @@
 
 
 
-# Dark Patterns Detector
+# WebGuard : Dark Patterns Detector
 
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![GitHub Forks](https://img.shields.io/github/forks/zubairmh/dpbh-web?style=social)
 ![GitHub Stars](https://img.shields.io/github/stars/zubairmh/dpbh-web?style=social)
 ![GitHub Pull Requests](https://img.shields.io/github/issues-pr/zubairmh/dpbh-web?style=social)
+
+![Guard](https://github.com/zubairmh/dpbh-web/assets/113838495/b591ea7a-e2b6-4cf3-a692-d814c3778d93)
+
 ## Overview
 
 The *Dark Patterns Detector* is a sophisticated web extension developed with *Next.js*, designed to systematically identify and analyze deceptive design elements, commonly known as "dark patterns," prevalent on various websites. These manipulative tactics exploit user behavior, and this extension aims to empower users by exposing and providing insights into such practices.
@@ -59,7 +62,9 @@ The *Dark Patterns Detector* is a sophisticated web extension developed with *Ne
 | <img src="https://gist.githubusercontent.com/PonomareVlad/f7a37bce6ff2dc19971c681269a30b26/raw/6ead3403e203db1c9ea195b57f6026f1d498e7dc/arc.svg" width="24px" style="background: white" /> Arc          	|        ✅       	| Download From Chrome Webstore                           	|
 | <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/opera.svg" width="24px" style="background: white" /> Opera           	|        ✅       	| Download From Chrome Webstore      	|
 
+### Process Flow Diagram
 
+![ProcessFlowFull drawio](https://github.com/zubairmh/dpbh-web/assets/113838495/3c09c4b6-d221-4dc8-8915-5519ee67fcf3)
 
 ### Usage
 
