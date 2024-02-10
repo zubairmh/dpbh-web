@@ -2,7 +2,7 @@ import { GlobalContext } from "@/context/GlobalContext";
 import { mapping } from "@/lib/globals";
 import { useContext, useState, useEffect } from "react";
 export default function SendText() {
-  const { setDetections, text, index, setindex } = useContext(GlobalContext);
+  const { setDetections, text, index, setindex, stage } = useContext(GlobalContext);
 
   let brw = null;
   if (typeof chrome !== "undefined" && chrome.runtime) {
@@ -11,7 +11,7 @@ export default function SendText() {
     brw = browser;
   }
   useEffect(() => {
-    if (text.length != 0) {
+    if (text.length != 0 && stage==0) {
       console.log("Sending Text");
       const words = text;
       const body = {

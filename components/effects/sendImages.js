@@ -8,9 +8,9 @@ export default function SendImages() {
   } else if (typeof browser !== "undefined" && browser.runtime) {
     brw = browser;
   }
-  const { images, setImageDetections, setStages } = useContext(GlobalContext);
+  const { images, setImageDetections, setStages, stage } = useContext(GlobalContext);
   useEffect(() => {
-    if (images.length != 0) {
+    if (images.length != 0 && stage==0) {
       //   const body = {
       //     string: images,
       //   };

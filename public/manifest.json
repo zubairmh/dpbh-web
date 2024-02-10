@@ -15,7 +15,7 @@
       "id":"goyalparag54@gmail.com"
     }
   },
-  "permissions": ["activeTab","declarativeNetRequest", "webRequest", "webRequestBlocking"],
+  "permissions": ["activeTab","declarativeNetRequest", "webRequest", "webRequestBlocking", "storage", "tts"],
   "declarative_net_request": {
     "rule_resources": [
       {
