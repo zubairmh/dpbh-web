@@ -62,7 +62,9 @@ The *Dark Patterns Detector* is a sophisticated web extension developed with *Ne
 | <img src="https://gist.githubusercontent.com/PonomareVlad/f7a37bce6ff2dc19971c681269a30b26/raw/6ead3403e203db1c9ea195b57f6026f1d498e7dc/arc.svg" width="24px" style="background: white" /> Arc          	|        ✅       	| Download From Chrome Webstore                           	|
 | <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/opera.svg" width="24px" style="background: white" /> Opera           	|        ✅       	| Download From Chrome Webstore      	|
 
+### Process Flow Diagram
 
+![ProcessFlowFull drawio](https://github.com/zubairmh/dpbh-web/assets/113838495/3c09c4b6-d221-4dc8-8915-5519ee67fcf3)
 
 ### Usage
 
