@@ -19,7 +19,24 @@ if (typeof browser !== "undefined" && browser.runtime) {
   brw = browser;
 }
 
+// while (chrome == null) {}
+// console.log("======================sending message");
+// chrome.runtime.sendMessage({ message: "getData" }, function (response) {
+//   console.log("got responce from background", response);
+// });
 
+// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//   chrome.tabs.sendMessage(
+//     tabs[0].id,
+//     { message: "getData" },
+//     function (response) {
+//       console.log(
+//         "===================================sending get data request from inject"
+//       );
+//       console.log(response);
+//     }
+//   );
+// });
 
 function rmPriceTags(inputString) {
   var words = inputString.split(" ");
@@ -460,7 +477,7 @@ brw.runtime.onMessage.addListener(
         }
     `;
       document.head.appendChild(style);
-      sendResponse("OK")
+      sendResponse("OK");
     }
   }
 );

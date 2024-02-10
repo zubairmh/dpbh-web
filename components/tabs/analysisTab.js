@@ -16,7 +16,7 @@ const colors = [
 
 export default function AnalysisTab() {
   const [isClient, setIsClient] = useState(false);
-  const { tabs, detections } = useContext(GlobalContext);
+  const { tabs, detections, urls } = useContext(GlobalContext);
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -63,42 +63,72 @@ export default function AnalysisTab() {
       className="p-2 rounded text-white flex flex-col gap-5 "
     >
       {isClient && detections.length != 0 ? (
-        <PieChart
-          width={600}
-          height={600}
-          className="!w-full !h-44 shadow-none"
-        >
-          <Pie
-            data={detections}
-            dataKey="value"
-            nameKey="name"
-            cx="0%"
-            cy="50%"
-            innerRadius={140}
-            outerRadius={190}
-            fill="#8884d8"
-            label={renderCustomizedLabel}
+        <>
+          <PieChart
+            width={600}
+            height={600}
+            className="!w-full !h-44 shadow-none"
           >
-            {/* <Label fontSize={80} value={score} position="center" /> */}
-            {detections.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]} />
-            ))}
-          </Pie>
-          <Legend
-            iconSize={15}
-            iconType="circle"
-            formatter={renderColorfulLegendText}
-            align="right"
-            verticalAlign="top"
-            layout="vertical"
-          />
-        </PieChart>
+            <Pie
+              data={detections}
+              dataKey="value"
+              nameKey="name"
+              cx="0%"
+              cy="50%"
+              innerRadius={140}
+              outerRadius={190}
+              fill="#8884d8"
+              label={renderCustomizedLabel}
+            >
+              {/* <Label fontSize={80} value={score} position="center" /> */}
+              {detections.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={colors[index]} />
+              ))}
+            </Pie>
+            <Legend
+              iconSize={15}
+              iconType="circle"
+              formatter={renderColorfulLegendText}
+              align="right"
+              verticalAlign="top"
+              layout="vertical"
+            />
+          </PieChart>
+          <Generatereport />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {urls ? (
+              Object.keys(urls).map((key, index) => (
+                <div
+                  key={index}
+                  style={{ marginBottom: "10px", textAlign: "center" }}
+                >
+                  <div
+                    style={{
+                      width: "20px",
+                      height: "100px",
+                      backgroundColor: "blue",
+                    }}
+                  ></div>
+                  <div>{key}</div>
+                  {urls[key]}
+                </div>
+              ))
+            ) : (
+              <></>
+            )}
+          </div>
+        </>
       ) : (
         <div className="flex flex-col w-full h-full items-center justify-center">
           <Loader2 className="h-32 w-32 animate-spin" />
         </div>
       )}
-      <Generatereport />
     </div>
   );
 }

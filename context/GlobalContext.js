@@ -22,6 +22,7 @@ export default function GlobalProvider({ children }) {
   });
   const [drawn, setdrawn] = useState([]);
   const [showing, setshowing] = useState(-1);
+  const [urls, seturls] = useState(null);
   return (
     <GlobalContext.Provider
       value={{
@@ -38,8 +39,10 @@ export default function GlobalProvider({ children }) {
         drawn: drawn,
         showing: showing,
         activePage: activePage,
+        urls: urls,
 
         // Setter
+        setUrls: seturls,
         setTabs: setTabs,
         setText: setText,
         setImages: setImages,
