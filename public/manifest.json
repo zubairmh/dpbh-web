@@ -10,7 +10,12 @@
     "48": "/police.png",
     "192": "/police.png"
   },
-  "permissions": ["activeTab","declarativeNetRequest"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id":"goyalparag54@gmail.com"
+    }
+  },
+  "permissions": ["activeTab","declarativeNetRequest", "webRequest", "webRequestBlocking"],
   "declarative_net_request": {
     "rule_resources": [
       {
@@ -45,7 +50,9 @@
       }
     ]
   }, 
-
+  "background": {
+    "service_worker": "background.js"
+  },
   "web_accessible_resources": [
     {
       "resources": ["/*"],

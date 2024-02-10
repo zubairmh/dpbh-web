@@ -2,14 +2,29 @@ import { GlobalContext } from "@/context/GlobalContext";
 import { useContext, useEffect } from "react";
 
 export default function Launch() {
-  let brw=null;
-  if (typeof chrome !== 'undefined' && chrome.runtime) {
+  let brw = null;
+  if (typeof chrome !== "undefined" && chrome.runtime) {
     brw = chrome;
   } else if (typeof browser !== "undefined" && browser.runtime) {
     brw = browser;
   }
   const { setStages, setFaviconUrl, setImages, setText, setPageTitle } =
     useContext(GlobalContext);
+  function retry() {
+    brw.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      // setStages(0);
+      brw.tabs.sendMessage(
+        tabs[0].id,
+        { message: "getPage" },
+        function (response) {
+          // console.log("getPagee : ", response);
+          console.log("abcd", response);
+          var data = JSON.parse(response);
+          setText(data);
+        }
+      );
+    });
+  }
   useEffect(() => {
     const id = setTimeout(() => {
       brw.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -25,9 +40,13 @@ export default function Launch() {
           { message: "getPage" },
           function (response) {
             // console.log("getPagee : ", response);
-            console.log("abcd", response)
-            var data=JSON.parse(response);
-            setText(data[0]);
+            if (response === undefined) {
+              retry();
+            } else {
+              console.log("abcd", response);
+              var data = JSON.parse(response);
+              setText(data);
+            }
           }
         );
         brw.tabs.sendMessage(
@@ -57,8 +76,14 @@ export default function Launch() {
             setPageTitle(response);
           }
         );
+        brw.tabs.sendMessage(
+          tabs[0].id,
+          { message: "getData" },
+          function (response) {
+            console.log("========= GET DATA =========", response);
+          });
       });
-    }, 2000);
+    }, 10000);
     return () => clearTimeout(id);
   }, []);
   return <></>;

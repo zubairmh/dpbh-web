@@ -2,25 +2,25 @@ import { GlobalContext } from "@/context/GlobalContext";
 import { Loader2 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { Pie, Legend, Cell, PieChart } from "recharts";
+import Generatereport from "../generatedoc";
 const colors = [
-    "#a6cee3",
-    "#1f78b4",
-    "#b2df8a",
-    "#33a02c",
-    "#e31a1c",
-    "#ff7f00",
-    "#6a3d9a",
-    "#b645b3",
+  "#a6cee3",
+  "#1f78b4",
+  "#b2df8a",
+  "#33a02c",
+  "#e31a1c",
+  "#ff7f00",
+  "#6a3d9a",
+  "#b645b3",
 ];
 
-  
 export default function AnalysisTab() {
   const [isClient, setIsClient] = useState(false);
   const { tabs, detections } = useContext(GlobalContext);
   useEffect(() => {
     setIsClient(true);
   }, []);
-  
+
   const renderCustomizedLabel = ({
     cx,
     cy,
@@ -98,9 +98,7 @@ export default function AnalysisTab() {
           <Loader2 className="h-32 w-32 animate-spin" />
         </div>
       )}
-      <button className="flex flex-col w-full h-full items-center justify-center bg-[#6a7076] rounded-lg ">
-        Generate Report
-      </button>
+      <Generatereport />
     </div>
   );
 }
