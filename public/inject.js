@@ -128,6 +128,7 @@ brw.runtime.onMessage.addListener(
         left: 50%;
         transform: translate(-50%, -50%);
         width: 300px;
+        font-size:large;
         background-color: #f9f9f9;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
@@ -187,6 +188,8 @@ brw.runtime.onMessage.addListener(
       ng[0].addEventListener("click", () => {
         bt[1].disabled = false;
       });
+      // const cls = tmp.getElementById("close-btn")
+      // cls.addEventListener()
 
       function submitfeedback(obj) {
         console.log("sending msg", obj);
@@ -235,7 +238,7 @@ brw.runtime.onMessage.addListener(
       recurse(document.body);
       // var text = document.body.innerText;
       console.log("getPage", text, gfg);
-      var data = JSON.stringify([text, gfg]);
+      var data = JSON.stringify(text);
       sendResponse(data);
     }
 

@@ -75,7 +75,12 @@ export default function Generatereport() {
   }
   return (
     <>
-      <button onClick={gen}>Generate Report</button>
+      <button
+        className="flex flex-col w-full h-full items-center justify-center bg-[#6a7076] rounded-lg "
+        onClick={gen}
+      >
+        Generate Report
+      </button>
     </>
   );
 }

@@ -10,6 +10,21 @@ export default function Launch() {
   }
   const { setStages, setFaviconUrl, setImages, setText, setPageTitle } =
     useContext(GlobalContext);
+  function retry() {
+    brw.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      // setStages(0);
+      brw.tabs.sendMessage(
+        tabs[0].id,
+        { message: "getPage" },
+        function (response) {
+          // console.log("getPagee : ", response);
+          console.log("abcd", response);
+          var data = JSON.parse(response);
+          setText(data);
+        }
+      );
+    });
+  }
   useEffect(() => {
     const id = setTimeout(() => {
       brw.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -25,9 +40,13 @@ export default function Launch() {
           { message: "getPage" },
           function (response) {
             // console.log("getPagee : ", response);
-            console.log("abcd", response);
-            var data = JSON.parse(response);
-            setText(data[0]);
+            if (response === undefined) {
+              retry();
+            } else {
+              console.log("abcd", response);
+              var data = JSON.parse(response);
+              setText(data);
+            }
           }
         );
         brw.tabs.sendMessage(

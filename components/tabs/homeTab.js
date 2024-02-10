@@ -2,7 +2,6 @@ import { GlobalContext } from "@/context/GlobalContext";
 import { Loader2 } from "lucide-react";
 import { useContext, useEffect } from "react";
 import TextTransition, { presets } from "react-text-transition";
-import Generatereport from "../generatedoc";
 import Selectelement from "../selectelement";
 export default function HomeTab() {
   const { tabs, detections, showing, setshowing, drawn, setdrawn, index } =
@@ -93,7 +92,6 @@ export default function HomeTab() {
             Use Saber ⚔ to remove unwanted elements
           </button>
           <Selectelement />
-          <Generatereport />
         </>
       ) : (
         <div className="flex flex-col w-full h-full items-center justify-center">
