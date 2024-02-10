@@ -50,6 +50,15 @@ The *Dark Patterns Detector* is a sophisticated web extension developed with *Ne
 
 5. Open your browser and go to [http://localhost:3000](http://localhost:3000) to access the extension during development.
 
+## Browser Compatibility
+| Browser         	| Is compatible? 	| Links                                                               	|
+|-----------------	|:--------------:	|-------------------------------------------------------------------------------	|
+| <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/chrome.svg" width="24px" style="background: white" /> Google Chrome   	|        ✅  |https://chromewebstore.google.com/detail/webguard/fmdhbnclekigiecacodhabbbnadokeoj	|
+| <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/firefox.svg" width="24px" style="background: white" /> Mozilla Firefox 	|        ✅       	| https://addons.mozilla.org/en-US/firefox/addon/webguard-gg/   	|
+| <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/edge.svg" width="24px" style="background: white" /> Microsoft Edge  	|        ✅       	| Download From Chrome Webstore  	|
+| <img src="https://gist.githubusercontent.com/PonomareVlad/f7a37bce6ff2dc19971c681269a30b26/raw/6ead3403e203db1c9ea195b57f6026f1d498e7dc/arc.svg" width="24px" style="background: white" /> Arc          	|        ✅       	| Download From Chrome Webstore                           	|
+| <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/opera.svg" width="24px" style="background: white" /> Opera           	|        ✅       	| Download From Chrome Webstore      	|
+
 
 
 ### Usage
@@ -72,3 +81,4 @@ This project is licensed under the *MIT License* - see the [LICENSE](LICENSE) fi
 ## Acknowledgments
 
 - Special thanks to [Recharts](https://recharts.org/) for providing an excellent tool for pie chart visualization.
+- Special thanks to [Framer-motion](https://www.framer.com/motion/) for providing the excellent animations and transition
