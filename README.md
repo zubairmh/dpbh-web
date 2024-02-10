@@ -1,13 +1,16 @@
 
 
 
-# Dark Patterns Detector
+# WebGuard : Dark Patterns Detector
 
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![GitHub Forks](https://img.shields.io/github/forks/zubairmh/dpbh-web?style=social)
 ![GitHub Stars](https://img.shields.io/github/stars/zubairmh/dpbh-web?style=social)
 ![GitHub Pull Requests](https://img.shields.io/github/issues-pr/zubairmh/dpbh-web?style=social)
+
+![Guard](https://github.com/zubairmh/dpbh-web/assets/113838495/b591ea7a-e2b6-4cf3-a692-d814c3778d93)
+
 ## Overview
 
 The *Dark Patterns Detector* is a sophisticated web extension developed with *Next.js*, designed to systematically identify and analyze deceptive design elements, commonly known as "dark patterns," prevalent on various websites. These manipulative tactics exploit user behavior, and this extension aims to empower users by exposing and providing insights into such practices.
@@ -50,7 +53,18 @@ The *Dark Patterns Detector* is a sophisticated web extension developed with *Ne
 
 5. Open your browser and go to [http://localhost:3000](http://localhost:3000) to access the extension during development.
 
+## Browser Compatibility
+| Browser         	| Is compatible? 	| Links                                                               	|
+|-----------------	|:--------------:	|-------------------------------------------------------------------------------	|
+| <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/chrome.svg" width="24px" style="background: white" /> Google Chrome   	|        ✅  |https://chromewebstore.google.com/detail/webguard/fmdhbnclekigiecacodhabbbnadokeoj	|
+| <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/firefox.svg" width="24px" style="background: white" /> Mozilla Firefox 	|        ✅       	| https://addons.mozilla.org/en-US/firefox/addon/webguard-gg/   	|
+| <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/edge.svg" width="24px" style="background: white" /> Microsoft Edge  	|        ✅       	| Download From Chrome Webstore  	|
+| <img src="https://gist.githubusercontent.com/PonomareVlad/f7a37bce6ff2dc19971c681269a30b26/raw/6ead3403e203db1c9ea195b57f6026f1d498e7dc/arc.svg" width="24px" style="background: white" /> Arc          	|        ✅       	| Download From Chrome Webstore                           	|
+| <img src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/opera.svg" width="24px" style="background: white" /> Opera           	|        ✅       	| Download From Chrome Webstore      	|
 
+### Process Flow Diagram
+
+![ProcessFlowFull drawio](https://github.com/zubairmh/dpbh-web/assets/113838495/3c09c4b6-d221-4dc8-8915-5519ee67fcf3)
 
 ### Usage
 
@@ -72,3 +86,4 @@ This project is licensed under the *MIT License* - see the [LICENSE](LICENSE) fi
 ## Acknowledgments
 
 - Special thanks to [Recharts](https://recharts.org/) for providing an excellent tool for pie chart visualization.
+- Special thanks to [Framer-motion](https://www.framer.com/motion/) for providing the excellent animations and transition

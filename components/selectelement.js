@@ -29,8 +29,9 @@ export default function Selectelement() {
   }
 
   return (
-    <button className="bg-[#2e3134] border-r-2" onClick={select}>
-      Select Element
+    <button
+    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={select}>
+      Flag False Positives 
     </button>
   );
 }

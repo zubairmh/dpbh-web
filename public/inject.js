@@ -53,7 +53,8 @@ function isNodeVisible(node) {
   if (
     node.style.display === "none" ||
     node.style.visibility === "hidden" ||
-    node.style.opacity === "0"
+    node.style.opacity === "0" ||
+    node.style.zIndex < 0
   ) {
     return false;
   }
@@ -477,6 +478,7 @@ brw.runtime.onMessage.addListener(
         }
     `;
       document.head.appendChild(style);
+      sendResponse("OK");
       sendResponse("OK");
     }
   }
