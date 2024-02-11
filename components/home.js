@@ -17,7 +17,7 @@ export default function Index() {
   return (
     <div
       style={inter.style}
-      className="bg-[#24272a] w-[400px] h-auto flex flex-col gap-2 rounded-md text-white overflow-hidden"
+      className="bg-[#24272a] w-[450px] h-auto flex flex-col gap-2 rounded-md text-white overflow-hidden"
     >
       {env === "production" && (
         <>

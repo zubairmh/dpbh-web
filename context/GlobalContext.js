@@ -33,6 +33,7 @@ export default function GlobalProvider({ children }) {
   const [SettingsUncheckEnable, setSettingsUncheckEnable] = useState(true);
   const [SettingsTTS, setSettingsTTS] = useState(true);
   const [spoken, setSpoken] = useState(false);
+  const [lang, setLang] = useState(true);
   useEffect(() => {
     brw.storage.local
       .get(["image", "imageVisual", "checkbox","tts"])
@@ -81,6 +82,7 @@ export default function GlobalProvider({ children }) {
         SettingsUncheckEnable: SettingsUncheckEnable,
         SettingsTTS: SettingsTTS,
         spoken: spoken,
+        lang: lang,
 
         // Setter
         setTabs: setTabs,
@@ -99,7 +101,8 @@ export default function GlobalProvider({ children }) {
         setSettingsImageEnableVisuals: setSettingsImageEnableVisuals,
         setSettingsUncheckEnable: setSettingsUncheckEnable,
         setSettingsTTS: setSettingsTTS,
-        setSpoken: setSpoken
+        setSpoken: setSpoken,
+        setLang: setLang
       }}
     >
       {children}

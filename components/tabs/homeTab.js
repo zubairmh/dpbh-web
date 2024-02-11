@@ -3,8 +3,9 @@ import { Loader2 } from "lucide-react";
 import { useContext, useEffect } from "react";
 import TextTransition, { presets } from "react-text-transition";
 import Selectelement from "../selectelement";
+import { mapping, mapping_en } from "@/lib/globals";
 export default function HomeTab() {
-  const { tabs, detections, showing, setshowing, drawn, setdrawn, index } =
+  const { tabs, detections, showing, setshowing, drawn, setdrawn, index, lang, setLang } =
     useContext(GlobalContext);
   let brw = null;
   if (typeof chrome !== "undefined" && chrome.runtime) {
@@ -61,7 +62,12 @@ export default function HomeTab() {
                   key={i}
                   className="bg-[#2e3134]  rounded-md text-center p-2"
                 >
-                  <h1>{v.name}</h1>
+                  <h1>
+                    {
+                      lang ?
+                      mapping[i] : mapping_en[i]
+                    }
+                  </h1>
                   <div className="flex flex-row justify-center items-center w-full text-xl font-bold">
                     {`${v.value}`.split("").map((txt, i) => (
                       <TextTransition key={i} delay={i * 100} inline>

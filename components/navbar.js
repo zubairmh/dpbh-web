@@ -2,11 +2,11 @@ import { GlobalContext } from "@/context/GlobalContext";
 import { useContext } from "react";
 import { Loader2 } from "lucide-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-
+import { GiIndiaGate } from "react-icons/gi";
 
 
 export default function Navbar() {
-  const { stage, detections, setActivePage } = useContext(GlobalContext)
+  const { stage, detections, setActivePage, lang, setLang } = useContext(GlobalContext)
   return (
     <div className="flex flex-row items-center justify-start gap-4 rounded p-4 shadow-xl ">
       <img src="/police.png" width="20px" height="15px"></img>
@@ -31,8 +31,11 @@ export default function Navbar() {
           </>
 
         )}
+        <div style={{color: lang ? "green" : "red"}} className="mr-2">
+          <button onClick={() => setLang(!lang)}><GiIndiaGate size={16} /></button>
+        </div>
         <div className="">
-          <button onClick={() => setActivePage("settings")}><BsThreeDotsVertical /></button>
+          <button onClick={() => setActivePage("settings")}><BsThreeDotsVertical size={16} /></button>
         </div>
       </div>
     </div>
