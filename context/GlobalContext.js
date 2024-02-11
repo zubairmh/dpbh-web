@@ -28,24 +28,31 @@ export default function GlobalProvider({ children }) {
   });
   const [drawn, setdrawn] = useState([]);
   const [showing, setshowing] = useState(-1);
+  const [urls, seturls] = useState(null);
   const [SettingsImageEnable, setSettingsImageEnable] = useState(true);
-  const [SettingsImageEnableVisuals, setSettingsImageEnableVisuals] = useState(true);
+  const [SettingsImageEnableVisuals, setSettingsImageEnableVisuals] =
+    useState(true);
   const [SettingsUncheckEnable, setSettingsUncheckEnable] = useState(true);
   const [SettingsTTS, setSettingsTTS] = useState(true);
   const [spoken, setSpoken] = useState(false);
   const [lang, setLang] = useState(true);
   useEffect(() => {
     brw.storage.local
-      .get(["image", "imageVisual", "checkbox","tts"])
+      .get(["image", "imageVisual", "checkbox", "tts"])
       .then((result) => {
         if (
           typeof result.image === "undefined" ||
           typeof result.imageVisual === "undefined" ||
           typeof result.checkbox === "undefined" ||
-          typeof result.tts === "undefined" 
+          typeof result.tts === "undefined"
         ) {
           brw.storage.local
-            .set({ image: SettingsImageEnable, imageVisual: SettingsImageEnableVisuals, checkbox: SettingsImageEnableVisuals, tts: SettingsTTS })
+            .set({
+              image: SettingsImageEnable,
+              imageVisual: SettingsImageEnableVisuals,
+              checkbox: SettingsImageEnableVisuals,
+              tts: SettingsTTS,
+            })
             .then(() => {
               console.log("Default Settings Set");
             });
@@ -77,6 +84,7 @@ export default function GlobalProvider({ children }) {
         drawn: drawn,
         showing: showing,
         activePage: activePage,
+        urls: urls,
         SettingsImageEnable: SettingsImageEnable,
         SettingsImageEnableVisuals: SettingsImageEnableVisuals,
         SettingsUncheckEnable: SettingsUncheckEnable,
@@ -85,6 +93,7 @@ export default function GlobalProvider({ children }) {
         lang: lang,
 
         // Setter
+        setUrls: seturls,
         setTabs: setTabs,
         setText: setText,
         setImages: setImages,

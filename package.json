@@ -24,6 +24,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.3",
+    "fs": "^0.0.1-security",
     "fs-extra": "^11.2.0",
     "glob": "^10.2.3",
     "lucide-react": "^0.315.0",
