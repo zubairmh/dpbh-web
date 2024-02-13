@@ -116,7 +116,7 @@ export default function AnalysisTab() {
               alignItems: "center",
             }}
           >
-            {urls && urls.length > 0 ? (
+            {urls ? (
               <table class="w-full text-sm text-left rtl:text-right">
                 <thead class="text-xs">
                   <tr>
