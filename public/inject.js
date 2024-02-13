@@ -5,6 +5,7 @@ var ls;
 
 let brw = chrome;
 var index = [];
+var text = [];
 const mappings = [
   "Urgency",
   "Misdirection",
@@ -70,7 +71,6 @@ function isNodeVisible(node) {
 brw.runtime.onMessage.addListener(
   // this is the message listene
   function (request, sender, sendResponse) {
-    text = [];
     function recurse(i) {
       if (
         !(
@@ -413,6 +413,7 @@ brw.runtime.onMessage.addListener(
           img.style.filter = "blur(10px)";
 
           // Add a text label in the middle of the image
+          // const font = img.height / 5;
           overlay.style.fontSize = "20px";
           overlay.innerText = `Analyzing Image`;
           overlay.style.position = "absolute";
@@ -430,10 +431,11 @@ brw.runtime.onMessage.addListener(
             img: img,
             overlay: overlay,
           };
-          // setTimeout(()=>{
-          //   img.style.filter='';
-          //   img.parentElement.removeChild(overlay);
-          // }, 2000+i*50)
+          setTimeout(() => {
+            img.style.filter = "";
+            overlay.innerText = "";
+            // img.parentElement.removeChild(overlay);
+          }, 15000);
 
           // console.log(img);
           // console.log(img.src);
@@ -485,13 +487,18 @@ brw.runtime.onMessage.addListener(
       sendResponse("OK");
     }
     if (request.message == "allSaber") {
-      // console.log("allSaber got msg index :", index);
-      // console.log("allSaber got msg index :", index[0].length);
-      for (let i = 0; i <= Object.keys(index).length; i++) {
+      console.log("allSaber got msg index :", index);
+      console.log("allSaber got msg index :", index[0].length);
+      for (let i = 0; i < Object.keys(index).length; i++) {
         if (i != 2) {
           for (let j = 0; j < index[i].length; j++) {
             // console.log(index[i][j]);
-            gfg[index[i][j]].remove();
+            element = gfg[index[i][j]];
+            if (element.style.display === "none") {
+              element.style.display = "block"; // or 'inline', 'inline-block', etc.
+            } else {
+              element.style.display = "none";
+            }
           }
         }
       }
