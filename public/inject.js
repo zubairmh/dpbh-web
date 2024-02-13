@@ -1,9 +1,10 @@
 var all = {};
 var gfg = [];
 var urls = [];
+var ls;
 
 let brw = chrome;
-var ls = [];
+var index = [];
 const mappings = [
   "Urgency",
   "Misdirection",
@@ -230,7 +231,7 @@ brw.runtime.onMessage.addListener(
       frm[0].addEventListener("submit", (e) => {
         e.preventDefault();
         obj.pattern = e.target.elements["whichelement"].value;
-        console.log(obj);
+        // console.log(obj);
         submitfeedback(obj);
         tmp.remove();
       });
@@ -267,11 +268,11 @@ brw.runtime.onMessage.addListener(
     }
 
     if (request.message === "show") {
-      console.log("her");
+      // console.log("her");
       let ls = document.getElementsByName("WebGuard_" + request.i);
-      console.log("daf");
+      // console.log("daf");
       for (let gh of ls) {
-        console.log("Showing: ", gh);
+        // console.log("Showing: ", gh);
         gh.style.border = "2px solid red";
       }
 
@@ -284,7 +285,7 @@ brw.runtime.onMessage.addListener(
 
     if (request.message === "hide") {
       let ls = document.getElementsByName("WebGuard_" + request.i);
-      console.log("trying to hide ", ls);
+      // console.log("trying to hide ", ls);
 
       for (let gh of ls) {
         gh.style.border = "none";
@@ -324,9 +325,10 @@ brw.runtime.onMessage.addListener(
       document.body.after(stl);
       const nh = request.index;
       console.log("123drawing", nh, nh.length);
+      index = request.index;
       for (let i = 0; i < Object.keys(request.index).length; i++) {
         // if (i != 2) {
-        console.log(i, request.index[i].length);
+        // console.log(i, request.index[i].length);
         for (let j = 0; j < request.index[i].length; j++) {
           wrapperDiv = document.createElement("div");
           wrapperDiv.setAttribute("name", "WebGuard_" + String(i));
@@ -351,12 +353,12 @@ brw.runtime.onMessage.addListener(
     if (request.message === "favicon") {
       const faviconElement = document.querySelector("link[rel*='icon']");
       const faviconUrl = faviconElement ? faviconElement.href : null;
-      console.log("favicon", faviconUrl);
+      // console.log("favicon", faviconUrl);
       sendResponse(faviconUrl);
     }
 
     if (request.message === "title") {
-      console.log("title", window.location.hostname);
+      // console.log("title", window.location.hostname);
       sendResponse(window.location.hostname);
     }
 
@@ -433,12 +435,12 @@ brw.runtime.onMessage.addListener(
           //   img.parentElement.removeChild(overlay);
           // }, 2000+i*50)
 
-          console.log(img);
-          console.log(img.src);
+          // console.log(img);
+          // console.log(img.src);
           links.push(img.src);
         }
       });
-      console.log("images", links);
+      // console.log("images", links);
       sendResponse(links);
     }
 
@@ -481,6 +483,18 @@ brw.runtime.onMessage.addListener(
       document.head.appendChild(style);
       sendResponse("OK");
       sendResponse("OK");
+    }
+    if (request.message == "allSaber") {
+      // console.log("allSaber got msg index :", index);
+      // console.log("allSaber got msg index :", index[0].length);
+      for (let i = 0; i <= Object.keys(index).length; i++) {
+        if (i != 2) {
+          for (let j = 0; j < index[i].length; j++) {
+            // console.log(index[i][j]);
+            gfg[index[i][j]].remove();
+          }
+        }
+      }
     }
   }
 );

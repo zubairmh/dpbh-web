@@ -25,11 +25,10 @@ export default function Index() {
           <effects.SendText />
           <effects.SendImages />
           <effects.UpdateDetections />
-          <effects.UpdateLocalStorage/>
-          <effects.TTSpeak/>
+          <effects.UpdateLocalStorage />
+          {/* <effects.TTSpeak/> */}
         </>
       )}
-
 
       <Navbar />
       {stage == 2 || stage == 1 ? (
