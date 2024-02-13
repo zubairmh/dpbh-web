@@ -26,7 +26,7 @@ export default function Index() {
           <effects.SendImages />
           <effects.UpdateDetections />
           <effects.UpdateLocalStorage />
-          {/* <effects.TTSpeak/> */}
+          <effects.TTSpeak />
         </>
       )}
 
