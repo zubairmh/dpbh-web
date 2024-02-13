@@ -87,7 +87,7 @@ export default function Launch() {
           { message: "image" },
           function (response) {
             // console.log(response);
-            if (response.length == 0) {
+            if (typeof response == "undefined" && response.length == 0) {
               setStages(2);
             }
             setImages(response);
