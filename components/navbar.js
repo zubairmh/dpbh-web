@@ -31,7 +31,7 @@ export default function Navbar() {
           </>
 
         )}
-        <div style={{color: lang ? "green" : "red"}} className="mr-2">
+        <div style={{color: !lang ? "green" : "red"}} className="mr-2">
           <button onClick={() => setLang(!lang)}><GiIndiaGate size={16} /></button>
         </div>
         <div className="">

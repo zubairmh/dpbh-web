@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "WebGuard",
   "short_name": "WG",
-  "version": "2.0",
+  "version": "2.1",
   "description": "WebGuard is a multimodal dark pattern detector and blocker",
   "icons": {
     "16": "/police.png",
@@ -12,10 +12,17 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id":"goyalparag54@gmail.com"
+      "id": "goyalparag54@gmail.com"
     }
   },
-  "permissions": ["activeTab","declarativeNetRequest", "webRequest", "webRequestBlocking", "storage", "tts"],
+  "permissions": [
+    "activeTab",
+    "declarativeNetRequest",
+    "webRequest",
+    "webRequestBlocking",
+    "storage",
+    "tts"
+  ],
   "declarative_net_request": {
     "rule_resources": [
       {
@@ -49,9 +56,9 @@
         "path": "rulesets/ruleset_6.json"
       }
     ]
-  }, 
+  },
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"]
   },
   "web_accessible_resources": [
     {
@@ -61,7 +68,7 @@
   ],
   "content_scripts": [
     {
-      "run_at" : "document_idle",
+      "run_at": "document_idle",
       "matches": ["https://*/*", "http://*/*"],
       "js": ["inject.js"]
     }

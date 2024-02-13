@@ -12,7 +12,8 @@ const mappings = [
   "Obstruction",
   "Social Proof",
   "Sneaking",
-  "Forced Action",
+  "Forced Action",
+  "Trick Question",
 ];
 
 if (typeof browser !== "undefined" && browser.runtime) {

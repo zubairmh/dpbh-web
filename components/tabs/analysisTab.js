@@ -93,8 +93,22 @@ export default function AnalysisTab() {
               verticalAlign="top"
               layout="vertical"
             />
+            {/* <div
+                  key={index}
+                  className="flex justify-between flex-row mb-3"
+                >
+                  <div
+                    style={{
+                      width: "300px",
+                      height: "20px",
+                      backgroundColor: "blue",
+                    }}
+                  ><div>{key}</div></div>
+                  {urls[key]}
+                </div> */}
           </PieChart>
           <Generatereport />
+          <h1 className="font-semibold text-xl mt-2 mb-1">Data Brokers: </h1>
           <div
             style={{
               display: "flex",
@@ -102,25 +116,38 @@ export default function AnalysisTab() {
               alignItems: "center",
             }}
           >
-            {urls ? (
-              Object.keys(urls).map((key, index) => (
-                <div
-                  key={index}
-                  style={{ marginBottom: "10px", textAlign: "center" }}
-                >
-                  <div
-                    style={{
-                      width: "20px",
-                      height: "100px",
-                      backgroundColor: "blue",
-                    }}
-                  ></div>
-                  <div>{key}</div>
-                  {urls[key]}
-                </div>
-              ))
+            {urls && urls.length > 0 ? (
+              <table class="w-full text-sm text-left rtl:text-right">
+                <thead class="text-xs">
+                  <tr>
+                    <th scope="col" class="px-6 py-3">
+                      Data sent to
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Number of requests
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {" "}
+                  {Object.keys(urls).map((key, index) => {
+                    if (key != "rachancheet.me") {
+                      return (
+                        <tr class="border-b">
+                          <th scope="row" class="px-6 py-4 font-medium">
+                            {key}
+                          </th>
+                          <td class="px-6 py-4">{urls[key]}</td>
+                        </tr>
+                      );
+                    } else return <></>;
+                  })}
+                </tbody>
+              </table>
             ) : (
-              <></>
+              <div className="flex flex-col w-full h-full items-center justify-center">
+                <Loader2 className="h-32 w-32 animate-spin" />
+              </div>
             )}
           </div>
         </>

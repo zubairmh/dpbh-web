@@ -1,8 +1,8 @@
 import { GlobalContext } from "@/context/GlobalContext";
 import { useContext, useEffect } from "react";
 
-function parseEasyList(easyListText, requests) {
-  const blockedDomains = easyListText;
+function parseEasyList( requests) {
+  // const blockedDomains = easyListText;
 
   // console.log("blockeddomains", blockedDomains);
   console.log("requestss", requests);
@@ -15,13 +15,13 @@ function parseEasyList(easyListText, requests) {
     tmp = tmp.join(".");
     console.log(tmp);
 
-    if (blockedDomains.includes(tmp)) {
+    // if (blockedDomains.includes(tmp)) {
       if (data[tmp]) {
         data[tmp] += 1;
       } else {
         data[tmp] = 1;
       }
-    }
+    // }
   }
   console.log("=============blocking", data);
   return data;
@@ -123,22 +123,27 @@ export default function Launch() {
       brw.runtime.sendMessage({ message: "getData" }, function (response) {
         console.log("got responce from background", response);
 
-        fetch("domains.txt")
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("Failed to fetch file");
-            }
-            return res.text(); // Read the response body as text
-          })
-          .then((data) => {
-            console.log("got response from file", data);
-            const a = parseEasyList(data.split("\n"), response);
-            console.log("something wrong with seturls", a);
-            setUrls(a);
-          })
-          .catch((error) => {
-            console.error("Error fetching file:", error);
-          });
+        const a = parseEasyList( response);
+        console.log(a);
+        setUrls(a);
+
+
+        // fetch("domains.txt")
+        //   .then((res) => {
+        //     if (!res.ok) {
+        //       throw new Error("Failed to fetch file");
+        //     }
+        //     return res.text(); // Read the response body as text
+        //   })
+        //   .then((data) => {
+        //     console.log("got response from file", data);
+        //     const a = parseEasyList(data.split("\n"), response);
+        //     console.log("something wrong with seturls", a);
+        //     setUrls(a);
+        //   })
+        //   .catch((error) => {
+        //     console.error("Error fetching file:", error);
+        //   });
       });
     }, 20000);
 
