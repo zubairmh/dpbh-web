@@ -491,7 +491,8 @@ brw.runtime.onMessage.addListener(
         if (i != 2) {
           for (let j = 0; j < index[i].length; j++) {
             // console.log(index[i][j]);
-            gfg[index[i][j]].remove();
+            // if(gfg[index[i][j]].style.visibility==)
+            console.log(gfg[index[i][j]].style.visibility);
           }
         }
       }
